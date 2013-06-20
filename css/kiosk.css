@@ -1,0 +1,412 @@
+html,
+body {
+	width: 1024px;
+	height: 768px;
+	margin: 0px;
+	padding: 0px;
+}
+body {
+	position:relative;
+}
+#video, .video {
+	position: absolute;
+	width: 1024px;
+	height: 768px;
+	left: 0px;
+	top: 0px;
+	background-color: #000;
+}
+#video video, .video video {
+	width: 1024px;
+	height: 648px;
+	margin-top: 60px;
+	margin-bottom: 60px;
+	padding: 0px;
+}
+#menu, .menu {
+	background-color: #66CCFF;
+	background-image: -moz-linear-gradient(#ffffff, #66CCFF);
+	background-image: -ms-linear-gradient(#ffffff, #66CCFF);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #66CCFF));
+	background-image: -webkit-linear-gradient(#ffffff, #66CCFF);
+	background-image: -o-linear-gradient(#ffffff, #66CCFF);
+	background-image: linear-gradient(#ffffff, #66CCFF);
+	background-image: url(../images/background.jpg);
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
+	-o-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	position: absolute;
+	width:100%;
+	height:100%;
+	left: 0px;
+	top: 0px;
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+#logo, .logo {
+	position: absolute;
+	background-image: url(../images/CryoCellLogo.png);
+	height: 80px;
+	width: 240px;
+	margin-top: -40px;
+	margin-left: -120px;
+	left: 160px;
+	top: 80px;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.button {
+	width: 360px;
+	height: 80px;
+	margin-left: -180px;
+	margin-top: -40px;
+	color: #444444;
+	display: block;
+	vertical-align: middle;
+	background-image: url(../images/button.png);
+	color: #444444;
+	overflow: visible;
+	padding: 3px 10px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	font-size: 36px;
+	line-height: 80px;
+	font-family: Arial, Helvetica, sans-serif;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.button-small {
+	width: 360px;
+	height: 80px;
+	margin-left: -180px;
+	margin-top: -40px;
+	color: #444444;
+	display: block;
+	vertical-align: middle;
+	background-image: url(../images/button-small.png);
+	color: #444444;
+	overflow: visible;
+	padding: 3px 10px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	font-size: 36px;
+	line-height: 80px;
+	font-family: Arial, Helvetica, sans-serif;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.button-mini {
+	width: 180px;
+	height: 40px;
+	margin-left: -90px;
+	margin-top: -20px;
+	color: #444444;
+	display: block;
+	vertical-align: middle;
+	background-image: url(../images/button-small.png);
+	background-size: 90px 40px;
+	-webkit-background-size: 90px 40px;
+	-o-background-size: 90px 40px;
+	-moz-background-size: 90px 40px;
+	color: #444444;
+	overflow: visible;
+	padding: 3px 10px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	font-size: 18px;
+	line-height: 40px;
+	font-family: Arial, Helvetica, sans-serif;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+#buffering {
+	position: absolute;
+	width:100%;
+	height:100%;
+	left: 0px;
+	top: 0px;
+	background-image: url(../images/loadingbig.gif);
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+#play, .play {
+	position:absolute;
+	left:50%;
+	top:25%;
+}
+#replay, .replay {
+	position:absolute;
+	left:25%;
+	top:50%;
+}
+#home, .home {
+	position:absolute;
+	left:50%;
+	top:50%;
+}
+#prev, .prev {
+	position:absolute;
+	left:25%;
+	top:50%;
+}
+#next, .next {
+	position:absolute;
+	left:75%;
+	top:50%;
+}
+#contact, .contact {
+	position:absolute;
+	left:50%;
+	top:75%;
+}
+#stop, .stop {
+	position:absolute;
+	left:50px;
+	top:30px;
+}
+.play-icon {
+	background-image: url(../images/go-next-view.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+.prev-icon {
+	background-image: url(../images/go-previous-7.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+.next-icon {
+	background-image: url(../images/go-next-7.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+.replay-icon {
+	background-image: url(../images/view-refresh.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+
+.home-icon {
+	background-image: url(../images/view-refresh.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+
+.en-icon {
+	background-image: url(../images/flag-us.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+
+.es-icon {
+	background-image: url(../images/flag-es.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+
+a.languageSelector {
+	background-image: none;
+	background-color: none;
+}
+
+a.en-locale {
+	position: absolute;
+	height: 80px;
+	width: 80px;
+	top: 40px;
+	right: 120px;
+}
+a.es-locale {
+	position: absolute;
+	height: 80px;
+	width: 80px;
+	top: 40px;
+	right: 40px;
+}
+
+.replay {
+	display: none;
+}
+
+.play {
+	top:60%;
+}
+
+
+.prev, .next {
+	width: 360px;
+	height: 80px;
+	margin-left:-180px;
+	margin-top:-40px;
+	top:90%;
+	text-align: center;
+}
+
+.title {
+	position: absolute;
+	left: 50%;
+	top: 20%;
+	width: 1024px;
+	margin-left: -512px;
+	text-align: center;
+	display: block;
+}
+
+.title h1 {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 58px;
+	font-weight: bold;
+	color: #1075a6;
+	margin:0;
+	line-height:60px;
+}
+
+.subtitle {
+	position: relative;
+	left: 50%;
+	width: 1024px;
+	height: 120px;
+	margin-left: -512px;
+	margin-top: 16px;
+	text-align: center;
+	display: block;
+}
+
+.subtitle h2 {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	font-weight: bold;
+	color: #1075a6;
+	margin: 0;
+	line-height: 28px;
+}
+
+
+#callbackForm {
+	width: 760px;
+	height: 240px;
+	position:absolute;
+	top:51%;
+	left:50%;
+	margin-left:-380px;
+	margin-top:-120px;
+	display:block;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 28px;
+	line-height: 30px;
+}
+
+input[type="text"], input[type="tel"], input[type="date"], input[type="email"] {
+	width: 90%;
+	float:left;
+	height: 28px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	vertical-align:middle;
+	text-align:center
+}
+label {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 24px;
+}
+
+.save {
+	position:absolute;
+	left:50%;
+	top:75%;
+}
+
+.languageSelector {
+	display:none;
+}
+
+#page2 .play, #page3 .play {
+	top:50%;
+}
+#page2 .contact, #page3 .contact {
+	top:70%;
+}
+#page5 .home {
+	top:60%;
+}
+
+.error, .ErrorLabel, .EditingFormErrorLabel {
+	font-size: 10px;
+	color: #F00;
+	line-height: 12px;
+}
+
+#page1 .prev, #page4 .next, #page5 .prev, #page5 .next {
+	display: none;
+}
+
+#datepicker {
+	font-size:16px;
+}
+
+#page4 .title {
+	top:15%;
+}
+
+input[type="submit"] {
+	display:none;
+}
+
+label.error {
+	background-image: url(../images/desktop-alert-icon-32x32.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	vertical-align: middle;
+	display: inline-block;
+	float: right;
+	height: 32px;
+	width: 32px;
+	margin-left: 8px;
+	margin-right: -40px;
+	font-size: 0;
+    text-indent: -9999px;                 /* sends the text off-screen */
+    white-space: nowrap;            /* because only the first line is indented */
+}
