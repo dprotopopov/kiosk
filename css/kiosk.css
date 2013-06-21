@@ -99,10 +99,10 @@ body {
 	background-repeat: no-repeat;
 	background-position: center center;
 }
-.button-mini {
-	width: 180px;
+.button-small-mini {
+	width: 90px;
 	height: 40px;
-	margin-left: -90px;
+	margin-left: -45px;
 	margin-top: -20px;
 	color: #444444;
 	display: block;
@@ -112,6 +112,32 @@ body {
 	-webkit-background-size: 90px 40px;
 	-o-background-size: 90px 40px;
 	-moz-background-size: 90px 40px;
+	color: #444444;
+	overflow: visible;
+	padding: 3px 10px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	font-size: 18px;
+	line-height: 40px;
+	font-family: Arial, Helvetica, sans-serif;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.button-mini {
+	width: 180px;
+	height: 40px;
+	margin-left: -90px;
+	margin-right: -90px;
+	margin-top: -20px;
+	color: #444444;
+	display: block;
+	vertical-align: middle;
+	background-image: url(../images/button.png);
+	background-size: 180px 40px;
+	-webkit-background-size: 180px 40px;
+	-o-background-size: 180px 40px;
+	-moz-background-size: 180px 40px;
 	color: #444444;
 	overflow: visible;
 	padding: 3px 10px;
@@ -168,6 +194,11 @@ body {
 #stop, .stop {
 	position:absolute;
 	left:50px;
+	top:30px;
+}
+#video-contact, .video-contact {
+	position:absolute;
+	right:95px;
 	top:30px;
 }
 .play-icon {

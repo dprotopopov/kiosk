@@ -9,6 +9,7 @@ function currentMenu() { return jQuery(".menu." + currentLanguage).get(currentIn
 function currentVideo() { return jQuery(".video." + currentLanguage).get(currentIndex); }
 function currentPlayer() { return jQuery(currentVideo()).find("video").get(0); }
 function currentStop() { return jQuery(currentVideo()).find(".stop").get(0); }
+function currentVideoContact() { return jQuery(currentVideo()).find(".video-contact").get(0); }
 function currentYtPlayer() { return YtPlayers[jQuery(".ytplayer").index(jQuery(currentVideo()).find(".ytplayer").get(0))]; }
 function currentTubePlayer() { return jQuery(currentVideo()).find(".tubeplayer").get(0); }
 function nextIndex(index) { index++ ; if(index >= 5) index = 4; return index; }
@@ -19,6 +20,8 @@ function showCurrentVideo() { jQuery(currentVideo()).show(); }
 function hideCurrentVideo() { jQuery(currentVideo()).hide(); }
 function showCurrentStop() { jQuery(currentStop()).fadeIn(); }
 function hideCurrentStop() { jQuery(currentStop()).fadeOut(); }
+function showCurrentVideoContact() { jQuery(currentVideoContact()).fadeIn(); }
+function hideCurrentVideoContact() { jQuery(currentVideoContact()).fadeOut(); }
 function showBuffering() { jQuery("#buffering").show(); }
 function hideBuffering() { jQuery("#buffering").hide(); }
 function hideDoctor() { 
@@ -192,6 +195,7 @@ jQuery(document).ready(function(e) {
 			
 		player.addEventListener("ended", function(e){
 			hideCurrentStop();
+			hideCurrentVideoContact();
 			hideCurrentVideo();
 			hideBuffering();
 			currentIndex = nextIndex(currentIndex);
@@ -200,11 +204,13 @@ jQuery(document).ready(function(e) {
 		player.addEventListener("playing", function(e){
 			hideBuffering();
 			hideCurrentStop();
+			hideCurrentVideoContact();
 			showCurrentVideo();
 			hideCurrentMenu();
 		}, false);
 		player.addEventListener("pause", function(e){
 			showCurrentStop();
+			showCurrentVideoContact();
 		}, false);
 		player.addEventListener("waiting", function(e){
 			showBuffering();
@@ -300,6 +306,7 @@ jQuery(document).ready(function(e) {
 	jQuery("form").validate();
 	
 	jQuery(".stop").hide();
+	jQuery(".video-contact").hide();
 	jQuery(".video").hide();
 	jQuery(".menu").hide();
 	showCurrentMenu();
@@ -330,6 +337,14 @@ jQuery(document).ready(function(e) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		pauseCurrentPlayer();
 		hideCurrentVideo();
+		showCurrentMenu();
+	});
+
+	jQuery(".video-contact").click(function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		pauseCurrentPlayer();
+		hideCurrentVideo();
+		currentIndex = 3;
 		showCurrentMenu();
 	});
 
