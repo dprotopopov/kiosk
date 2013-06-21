@@ -336,6 +336,8 @@ jQuery(document).ready(function(e) {
 	jQuery(".stop").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		pauseCurrentPlayer();
+		hideCurrentStop();
+		hideCurrentVideoContact();
 		hideCurrentVideo();
 		showCurrentMenu();
 	});
@@ -343,6 +345,8 @@ jQuery(document).ready(function(e) {
 	jQuery(".video-contact").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		pauseCurrentPlayer();
+		hideCurrentStop();
+		hideCurrentVideoContact();
 		hideCurrentVideo();
 		currentIndex = 3;
 		showCurrentMenu();
