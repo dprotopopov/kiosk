@@ -1,20 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Cryo-Cell International</title>
-<link rel="stylesheet" href="css/smoothness/jquery-ui.css">
-<script src="js/jquery.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script src="js/jquery.validate.js"></script>
-<script src="js/jquery.form.js"></script> 
-<script src="js/jquery.maskedinput.js" type="text/javascript"></script>
-<script src="js/purl.js" type="text/javascript"></script>
-<script src="js/kiosk.js" type="text/javascript"></script>
-<link rel="stylesheet" href="css/kiosk.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Cryo-Cell International</title>
+    <link rel="stylesheet" href="css/smoothness/jquery-ui.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery.validate.js"></script>
+    <script src="js/jquery.form.js"></script> 
+    <script src="js/jquery.maskedinput.js" type="text/javascript"></script>
+    <script src="js/purl.js" type="text/javascript"></script>
+    <script src="js/kiosk.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/kiosk.css">
 </head>
 
 <body>
+<div id="screen">
 <div id="video1" class="video en es">
     <video id="example_video_1" width="1024px" height="768px" controls>
      <source src="video/CC_an_13.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
@@ -119,29 +120,27 @@
 <input type="hidden" name="ipad_id" value=""/>
     <table width="100%" border="0" cellpadding="2" cellspacing="0">
     	<tr>
-            <td width="40%"><label for="first_name">First Name</label></td>
+            <td width="40%" align="left"><label for="first_name">First Name</label></td>
             <td width="60%"><input type="text" id="first_name" name="first_name" class="required" /></td>
         </tr>
         <tr>
-            <td><label for="last_name" class="main">Last Name</label></td>
+            <td align="left"><label for="last_name" class="main">Last Name</label></td>
             <td><input type="text" id="last_name" name="last_name" class="required" /></td>
         </tr>
         <tr>
-            <td><label for="due_date" class="main">Expected Delivery Date</label></td>
-            <td>
-            	<input type="date" id="due_date" name="due_date" class="" />
-            </td>
+            <td align="left"><label for="due_date" class="main">Expected Delivery Date</label></td>
+            <td><input type="date" id="due_date" name="due_date" class="" /></td>
         </tr>
         <tr>
-            <td><label for="phone_number" >Phone Number</label></td>
+            <td align="left"><label for="phone_number" >Phone Number</label></td>
             <td><input type="tel" id="phone_number" name="phone_number" class="required" /></td>
         </tr>
         <tr>
-            <td><label for="email" >Email</label></td>
+            <td align="left"><label for="email" >Email</label></td>
             <td><input type="email" id="email" name="email" class="required email"/></td>
         </tr>
         <tr>
-            <td><label for="doctor" >Doctor</label></td>
+            <td align="left"><label for="doctor" >Doctor</label></td>
             <td><input type="text" id="doctor" name="doctor" class="required"/></td>
         </tr>
     </table>
@@ -172,5 +171,20 @@
     <a class="languageSelector es-locale" href="#" target="_self"><div class="es-icon">&nbsp;</div></a>
 </div>
 <div id="buffering"></div>
+<form id="surveyForm" action="" method="POST" title="Survey">
+<input type="hidden" name="pageId" value=""/>
+<input type="hidden" name="pageVariant" value=""/>
+<input type="hidden" name="url" value=""/>
+<input type="hidden" name="ipad_id" value=""/>
+    <table width="100%" border="0" cellpadding="2" cellspacing="0">
+    	<tr>
+            <td align="center"><label for="answer">What is the name of your doctor?</label></td>
+        </tr>
+        <tr>
+            <td align="center"><input type="text" id="answer" name="answer" class="" /></td>
+        </tr>
+    </table>
+</form>
+</div>
 </body>
 </html>

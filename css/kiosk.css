@@ -1,12 +1,19 @@
 html,
 body {
-	width: 1024px;
-	height: 768px;
+	width:100%;
 	margin: 0px;
 	padding: 0px;
+	text-align:center;
 }
-body {
+#screen {
 	position:relative;
+	display:inline-block;
+	width: 1024px;
+	height: 768px;
+	margin-left:auto;
+	margin-right:auto;
+	margin: 0px;
+	padding: 0px;
 }
 #video, .video {
 	position: absolute;
@@ -37,8 +44,8 @@ body {
 	-o-background-size: 100% 100%;
 	-moz-background-size: 100% 100%;
 	position: absolute;
-	width:100%;
-	height:100%;
+	width: 1024px;
+	height: 768px;
 	left: 0px;
 	top: 0px;
 	background-repeat: no-repeat;
@@ -382,6 +389,7 @@ input[type="text"], input[type="tel"], input[type="date"], input[type="email"] {
 label {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 24px;
+	text-align:left;
 }
 
 .save {
@@ -422,10 +430,6 @@ label {
 	top:15%;
 }
 
-input[type="submit"] {
-	display:none;
-}
-
 label.error {
 	background-image: url(../images/desktop-alert-icon-32x32.png);
 	background-repeat: no-repeat;
@@ -440,4 +444,12 @@ label.error {
 	font-size: 0;
     text-indent: -9999px;                 /* sends the text off-screen */
     white-space: nowrap;            /* because only the first line is indented */
+}
+
+#surveyForm input {
+	width:100%;
+	float:none;
+}
+#surveyForm label {
+	text-align:center;
 }

@@ -24,6 +24,18 @@ function showCurrentVideoContact() { jQuery(currentVideoContact()).fadeIn(); }
 function hideCurrentVideoContact() { jQuery(currentVideoContact()).fadeOut(); }
 function showBuffering() { jQuery("#buffering").show(); }
 function hideBuffering() { jQuery("#buffering").hide(); }
+function showSurveyDialog() { 
+	jQuery("#surveyForm").dialog({
+		buttons: {
+			"Submit": function() {
+				jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
+				jQuery(this).dialog("close");
+			},
+		},
+	}); 
+}
+function hideSurveyDialog() { jQuery("#surveyForm").hide(); }
+
 function hideDoctor() { 
 	jQuery("input[name*='doctor']").removeClass("required"); 
 	jQuery("input[name*='doctor']").hide(); 
@@ -36,7 +48,7 @@ function clearForm() {
 	  jQuery("input[name*='first_name']").val("");
 	  jQuery("input[name*='last_name']").val("");
 	  jQuery("input[name*='e_mail']").val("");
-	  jQuery("input[name*='doctor']").val("");
+//	  jQuery("input[name*='doctor']").val("");
 	  jQuery("input").removeClass("error");
 	  jQuery(".error").remove();
 	  jQuery(".ErrorLabel").remove();
@@ -297,11 +309,7 @@ jQuery(document).ready(function(e) {
 	jQuery("input[name*='url']").val(jQuery(location).attr('href'));
 
 	jQuery("input[name*='phone']").mask("(999) 999-9999");
-	var url = jQuery.url(jQuery(location).attr("href"));
-	if(((!(typeof kioskpro_id === 'undefined')) && kioskpro_id.toString().split(" ").join(""))
-	|| url.attr("query") || url.attr("fragment")) {
-		hideDoctor();
-	}
+	hideDoctor();
 	
 	jQuery("form").validate();
 	
@@ -311,11 +319,18 @@ jQuery(document).ready(function(e) {
 	jQuery(".menu").hide();
 	showCurrentMenu();
 	hideBuffering();
+	hideSurveyDialog();
 
+	var url = jQuery.url(jQuery(location).attr("href"));
+	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
+	&& !url.attr("query") && !url.attr("fragment")) {
+		showSurveyDialog();
+	}
+	
 	jQuery(".save").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		if (jQuery('form').valid()) {
-			jQuery('form').ajaxSubmit({
+		if (jQuery('#callbackForm').valid()) {
+			jQuery('#callbackForm').ajaxSubmit({
 				timeout:   3000, 
 				success:    function() { 
 					hideCurrentMenu();
