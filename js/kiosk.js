@@ -24,9 +24,11 @@ function showCurrentVideoContact() { jQuery(currentVideoContact()).fadeIn(); }
 function hideCurrentVideoContact() { jQuery(currentVideoContact()).fadeOut(); }
 function showBuffering() { jQuery("#buffering").show(); }
 function hideBuffering() { jQuery("#buffering").hide(); }
+function fullScreen() { jQuery("#window").fullScreen(true); }
 function updateHeight() { jQuery("#window").height(jQuery(window).height()); }
 function showSurveyDialog() { 
 	jQuery("#surveyForm").dialog({
+		minWidth: 480,
 		buttons: {
 			"Submit": function() {
 				jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
@@ -383,6 +385,8 @@ jQuery(document).ready(function(e) {
 	jQuery(window).resize(function() {
 		updateHeight();
 	});
+	
+	fullScreen();
 	
 	// Открытие формы вопроса перед началом использования сайта
 	// Условие - либо нет iPadID, либо в строке адреса нет параметров

@@ -11,6 +11,7 @@
     <script src="js/jquery.validate.js"></script>
     <script src="js/jquery.form.js"></script> 
     <script src="js/jquery.maskedinput.js"></script>
+    <script src="js/jquery.fullscreen.js"></script>
     <script src="js/purl.js"></script>
     <script src="js/kiosk.js"></script>
     <link rel="stylesheet" href="css/kiosk.css">
@@ -62,7 +63,7 @@
 </div>
 
 <div id="page1" class="menu-page en es">
-    <div class="logo"></div>
+    <a href="http://www.cryo-cell.com" target="_blank"><div class="logo"></div></a>
     <div class="title">
     	<h1>Why should you store<br />your baby’s cord blood?</h1>
     	<div class="subtitle">
@@ -79,7 +80,7 @@
     <a class="languageSelector es-locale" href="#" target="_self"><div class="es-icon"></div></a>
 </div>
 <div id="page2" class="menu-page en es">
-    <div class="logo"></div>
+    <a href="http://www.cryo-cell.com" target="_blank"><div class="logo"></div></a>
     <div class="title">
     	<h1>How can cord blood save lives?</h1>
     	<div class="subtitle">
@@ -96,7 +97,7 @@
     <a class="languageSelector es-locale" href="#" target="_self"><div class="es-icon"></div></a>
 </div>
 <div id="page3" class="menu-page en es">
-    <div class="logo"></div>
+    <a href="http://www.cryo-cell.com" target="_blank"><div class="logo"></div></a>
     <div class="title">
     	<h1>Why choose Cryo-Cell?</h1>
     	<div class="subtitle">
@@ -113,7 +114,7 @@
     <a class="languageSelector es-locale" href="#" target="_self"><div class="es-icon">&nbsp;</div></a>
 </div>
 <div id="page4" class="menu-page en es">
-    <div class="logo"></div>
+    <a href="http://www.cryo-cell.com" target="_blank"><div class="logo"></div></a>
     <div class="title">
         <h1>Thank you</h1>
         <div class="subtitle">
@@ -162,7 +163,7 @@
     <a class="languageSelector es-locale" href="#" target="_self">&nbsp;<div class="es-icon"></div></a>
 </div>
 <div id="page5" class="menu-page en es">
-    <div class="logo"></div>
+    <a href="http://www.cryo-cell.com" target="_blank"><div class="logo"></div></a>
     <div class="title">
     	<h1>Thank you</h1>
     	<div class="subtitle">
@@ -179,14 +180,17 @@
     <a class="languageSelector es-locale" href="#" target="_self"><div class="es-icon">&nbsp;</div></a>
 </div>
 <div id="buffering"></div>
-<form id="surveyForm" action="" method="POST" title="Welcome to the Cord Blood Education Program">
+<form id="surveyForm" action="" method="POST" title="">
 <input type="hidden" name="pageId" value=""/>
 <input type="hidden" name="pageVariant" value=""/>
 <input type="hidden" name="url" value=""/>
 <input type="hidden" name="ipad_id" value=""/>
     <table width="100%" border="0" cellpadding="2" cellspacing="0">
     	<tr>
-            <td align="center"><label for="answer">Please enter a name of the Ob/Gyn practice or a Doctor where you heard about us:</label></td>
+            <td align="center"><strong>Welcome to the Cord Blood<br />Education Program</strong></td>
+        </tr>
+    	<tr>
+            <td align="center"><label for="answer">Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:</label></td>
         </tr>
         <tr>
             <td align="center"><input type="text" id="answer" name="answer" class="" /></td>
