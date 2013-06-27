@@ -198,6 +198,9 @@ jQuery.tubeplayer.defaults.afterReady = function($player){
 
 jQuery(document).ready(function(e) {
 
+	// Разбор строки запроса на элементы
+	var url = jQuery.url(jQuery(location).attr("href"));
+	
 	// Выбор способа воспроизведения видео
 	// Для KioskPro, используется HTML5 video 
 	// Для остальных случаев воспроизводим с YouTube
@@ -348,6 +351,12 @@ jQuery(document).ready(function(e) {
 	jQuery("input[name*='ipad_id']").val(getID());
 	jQuery("input[name*='url']").val(jQuery(location).attr('href'));
 
+	// Заполняем элементы ввода значениями переданными в параметрах
+	url.attr("query").split("&").forEach(function (value,index) {
+		var ar = value.split("=");
+		jQuery("input[name*='"+ar[0]+"']").val(ar[1]);
+	});
+
 	// Проверка встроенной поддержки для <input type="date">
 	// Если нет встроенной поддержки для <input type="date">,
 	// то заменяем <input type="date"> на <input type="text">
@@ -390,7 +399,6 @@ jQuery(document).ready(function(e) {
 	
 	// Открытие формы вопроса перед началом использования сайта
 	// Условие - либо нет iPadID, либо в строке адреса нет параметров
-	var url = jQuery.url(jQuery(location).attr("href"));
 	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
 	&& !url.attr("query") && !url.attr("fragment")) {
 		showSurveyDialog();
