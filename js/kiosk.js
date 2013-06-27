@@ -5,25 +5,26 @@ var YtPlayers = new Array();
 var currentIndex = 0;
 var currentLanguage = "en";
 
-function currentMenu() { return jQuery(".menu." + currentLanguage).get(currentIndex); }
-function currentVideo() { return jQuery(".video." + currentLanguage).get(currentIndex); }
-function currentPlayer() { return jQuery(currentVideo()).find("video").get(0); }
-function currentStop() { return jQuery(currentVideo()).find(".stop").get(0); }
-function currentVideoContact() { return jQuery(currentVideo()).find(".video-contact").get(0); }
-function currentYtPlayer() { return YtPlayers[jQuery(".ytplayer").index(jQuery(currentVideo()).find(".ytplayer").get(0))]; }
-function currentTubePlayer() { return jQuery(currentVideo()).find(".tubeplayer").get(0); }
+function currentMenuPage() { return jQuery(".menu-page." + currentLanguage).get(currentIndex); }
+function currentVideoPage() { return jQuery(".video-page." + currentLanguage).get(currentIndex); }
+function currentStop() { return jQuery(currentVideoPage()).find(".stop").get(0); }
+function currentVideoContact() { return jQuery(currentVideoPage()).find(".video-contact").get(0); }
+function currentPlayer() { return jQuery(currentVideoPage()).find("video").get(0); }
+function currentYtPlayer() { return YtPlayers[jQuery(".ytplayer").index(jQuery(currentVideoPage()).find(".ytplayer").get(0))]; }
+function currentTubePlayer() { return jQuery(currentVideoPage()).find(".tubeplayer").get(0); }
 function nextIndex(index) { index++ ; if(index >= 5) index = 4; return index; }
 function prevIndex(index) { index-- ; if(index < 0) index = 0; return index; }
-function showCurrentMenu() { jQuery(currentMenu()).fadeIn("slow"); }
-function hideCurrentMenu() { jQuery(currentMenu()).fadeOut("slow"); }
-function showCurrentVideo() { jQuery(currentVideo()).show(); }
-function hideCurrentVideo() { jQuery(currentVideo()).hide(); }
+function showCurrentMenu() { jQuery(currentMenuPage()).fadeIn("slow"); }
+function hideCurrentMenu() { jQuery(currentMenuPage()).fadeOut("slow"); }
+function showCurrentVideo() { jQuery(currentVideoPage()).show(); }
+function hideCurrentVideo() { jQuery(currentVideoPage()).hide(); }
 function showCurrentStop() { jQuery(currentStop()).fadeIn(); }
 function hideCurrentStop() { jQuery(currentStop()).fadeOut(); }
 function showCurrentVideoContact() { jQuery(currentVideoContact()).fadeIn(); }
 function hideCurrentVideoContact() { jQuery(currentVideoContact()).fadeOut(); }
 function showBuffering() { jQuery("#buffering").show(); }
 function hideBuffering() { jQuery("#buffering").hide(); }
+function updateHeight() { jQuery("#window").height(jQuery(window).height()); }
 function showSurveyDialog() { 
 	jQuery("#surveyForm").dialog({
 		buttons: {
@@ -47,7 +48,7 @@ function clearForm() {
 	  jQuery("input[name*='phone']").val("");
 	  jQuery("input[name*='first_name']").val("");
 	  jQuery("input[name*='last_name']").val("");
-	  jQuery("input[name*='e_mail']").val("");
+	  jQuery("input[name*='mail']").val("");
 //	  jQuery("input[name*='doctor']").val("");
 	  jQuery("input").removeClass("error");
 	  jQuery(".error").remove();
@@ -57,7 +58,7 @@ function clearForm() {
 
 function playCurrentPlayer() {
 	if (currentIndex < 3) {
-		if (jQuery(currentVideo()).find(".tubeplayer").length>0) {
+		if (jQuery(currentVideoPage()).find(".tubeplayer").length>0) {
 			try {
 				var tubeplayer = currentTubePlayer();
 				jQuery(tubeplayer).tubeplayer("play");
@@ -66,7 +67,7 @@ function playCurrentPlayer() {
 				alert("tubeplayer:"+e);
 			}
 		}
-		else if (jQuery(currentVideo()).find(".ytplayer").length>0) {
+		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.playVideo();
@@ -89,7 +90,7 @@ function playCurrentPlayer() {
 
 function pauseCurrentPlayer() {
 	if (currentIndex < 3) {
-		if (jQuery(currentVideo()).find(".tubeplayer").length>0) {
+		if (jQuery(currentVideoPage()).find(".tubeplayer").length>0) {
 			try {
 				var tubeplayer = currentTubePlayer();
 				jQuery(tubeplayer).tubeplayer("pause");
@@ -98,7 +99,7 @@ function pauseCurrentPlayer() {
 				alert("tubeplayer:"+e);
 			}
 		}
-		else if (jQuery(currentVideo()).find(".ytplayer").length>0) {
+		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.pauseVideo();
@@ -118,14 +119,14 @@ function pauseCurrentPlayer() {
 		}
 	}
 }
-/*
+
 function onYouTubePlayerAPIReady() {
 	//alert("API is ready!");
 	jQuery(".ytplayer").each(function(i,e) {
 		var ytplayer;
 		ytplayer = new YT.Player(jQuery(this).attr("id"), {
-          	width: '1024',
-			height: '768',
+          	width: "100%",
+			height: '648',
 		  	allowfullscreen: 'true',
 		  	videoId: jQuery(this).attr("videoId"),
 		  	events: {
@@ -154,8 +155,12 @@ function onPlayerStateChange(event) {
 	switch(event.data) {
 	case YT.PlayerState.PAUSED:
 	  	hideBuffering();
+		showCurrentStop();
+		showCurrentVideoContact();
 		break;
 	case YT.PlayerState.ENDED:
+		hideCurrentStop();
+		hideCurrentVideoContact();
 		hideCurrentVideo();
 		hideBuffering();
 		currentIndex = nextIndex(currentIndex);
@@ -163,16 +168,14 @@ function onPlayerStateChange(event) {
 	  	break;
 	case YT.PlayerState.PLAYING:
 		hideBuffering();
+		hideCurrentStop();
+		hideCurrentVideoContact();
 		showCurrentVideo();
 		hideCurrentMenu();
 	  	break;
 	}
 }
 
-jQuery.tubeplayer.defaults.afterReady = function($player){
-  	hideBuffering();
-}
-*/
 
 function getID() {
 	if(typeof kioskpro_id === 'undefined') {
@@ -187,15 +190,33 @@ function getID() {
  	}
 }
 	  	  
+jQuery.tubeplayer.defaults.afterReady = function($player){
+	hideBuffering();
+}
+
 jQuery(document).ready(function(e) {
 
-//	alert(jQuery(window).width()+"x"+jQuery(window).height());
+	// Выбор способа воспроизведения видео
+	// Для KioskPro, используется HTML5 video 
+	// Для остальных случаев воспроизводим с YouTube
+	if(typeof kioskpro_id === 'undefined') {
+		jQuery("video").remove();
+	} else {
+		jQuery(".tubeplayer,.ytplayer").remove();
+	}
+
+	// Проверка для Kentico
+	// Открываем окно с неуспешным результатом отправки формы
+	// Убрать когда точно не будем использовать Kentico
 	if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
 		currentIndex = 3;
 	} else {
 		currentIndex = 0;
 	}
 	
+	// Проверка для Kentico
+	// Открываем окно с успешным результатом отправки формы
+	// Убрать когда точно не будем использовать Kentico
 	if(jQuery(".InfoLabel").length) {
 		jQuery(".InfoLabel").remove();
 		currentIndex = 4;
@@ -231,11 +252,11 @@ jQuery(document).ready(function(e) {
 			alert("an error in playback.");
 		}, false);
 	});
-/*	
+
 	jQuery(".tubeplayer").each(function(i,e) {
 		jQuery(this).tubeplayer({
-			width: 1024, // the width of the player
-			height: 768, // the height of the player
+			width: "100%", // the width of the player
+			height: 648, // the height of the player
 			allowFullScreen: "true", // true by default, allow user to go full screen
 			initialVideo: jQuery(this).attr("videoId"), // the video that is loaded into the player
 			start: 0, 
@@ -262,8 +283,12 @@ jQuery(document).ready(function(e) {
 			onUnMute: function(){}, // after the player is unmuted
 			onPlayerUnstarted: function(){
 				hideBuffering();
+				showCurrentStop();
+				showCurrentVideoContact();
 			}, // when the player returns a state of unstarted
 			onPlayerEnded: function(){
+				hideCurrentStop();
+				hideCurrentVideoContact();
 				hideCurrentVideo();
 				hideBuffering();
 				currentIndex = nextIndex(currentIndex);
@@ -271,11 +296,15 @@ jQuery(document).ready(function(e) {
 			}, // when the player returns a state of ended
 			onPlayerPlaying: function(){
 				hideBuffering();
+				hideCurrentStop();
+				hideCurrentVideoContact();
 				showCurrentVideo();
 				hideCurrentMenu();
 			}, //when the player returns a state of playing
 			onPlayerPaused: function(){
 				hideBuffering();
+				showCurrentStop();
+				showCurrentVideoContact();
 			}, // when the player returns a state of paused
 			onPlayerCued: function(){
 				hideBuffering();
@@ -295,6 +324,15 @@ jQuery(document).ready(function(e) {
 		});
 	});
 
+	// Инициализация для YouTube Player API
+	if (jQuery(".ytplayer").length>0) {	
+		// Load the IFrame Player API code asynchronously.
+		var tag = document.createElement('script');
+		tag.src = "https://www.youtube.com/player_api";
+		var firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	}
+/*
 	jQuery("input[name*='expected_delivery_date']").attr("type","date");
 	jQuery("input[name*='due_date']").attr("type","date");
 	jQuery("input[name*='phone']").attr("type","tel");
@@ -308,6 +346,26 @@ jQuery(document).ready(function(e) {
 	jQuery("input[name*='ipad_id']").val(getID());
 	jQuery("input[name*='url']").val(jQuery(location).attr('href'));
 
+	// Проверка встроенной поддержки для <input type="date">
+	// Если нет встроенной поддержки для <input type="date">,
+	// то заменяем <input type="date"> на <input type="text">
+	if (!Modernizr.inputtypes.date) {
+		jQuery("input[type='date']").attr("type","text");
+	}
+	
+	// Обработка поля due_date если нет встроенной поддержки для <input type="date">
+	jQuery("input[name*='due_date'][type='text']").focus(function(event) { 
+		jQuery( "input[name*='due_date']" ).datepicker( 
+			"dialog", 
+			jQuery("input[name*='due_date']").val() , 
+			function (date, inst) {
+				jQuery("input[name*='due_date']").val(date);
+			},
+			{
+				showButtonPanel: true
+			}
+		);
+	});
 	jQuery("input[name*='phone']").mask("(999) 999-9999");
 	hideDoctor();
 	
@@ -315,12 +373,19 @@ jQuery(document).ready(function(e) {
 	
 	jQuery(".stop").hide();
 	jQuery(".video-contact").hide();
-	jQuery(".video").hide();
-	jQuery(".menu").hide();
+	jQuery(".video-page").hide();
+	jQuery(".menu-page").hide();
+	updateHeight();
 	showCurrentMenu();
 	hideBuffering();
 	hideSurveyDialog();
 
+	jQuery(window).resize(function() {
+		updateHeight();
+	});
+	
+	// Открытие формы вопроса перед началом использования сайта
+	// Условие - либо нет iPadID, либо в строке адреса нет параметров
 	var url = jQuery.url(jQuery(location).attr("href"));
 	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
 	&& !url.attr("query") && !url.attr("fragment")) {
@@ -385,15 +450,22 @@ jQuery(document).ready(function(e) {
 
 	jQuery(".play").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		showBuffering();
+//		showBuffering();
+		hideCurrentMenu();
+		showCurrentStop();
+		showCurrentVideoContact();
+		showCurrentVideo();
 		playCurrentPlayer();
 	});
 
 	jQuery(".replay").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		hideCurrentMenu();
-		showBuffering();
+//		showBuffering();
 		currentIndex = prevIndex(currentIndex);
+		showCurrentStop();
+		showCurrentVideoContact();
+		showCurrentVideo();
 		playCurrentPlayer();
 	});
 
@@ -423,11 +495,4 @@ jQuery(document).ready(function(e) {
 		currentLanguage = "es";
 		showCurrentMenu();
 	});
-/*
-	// Load the IFrame Player API code asynchronously.
-	var tag = document.createElement('script');
-	tag.src = "https://www.youtube.com/player_api";
-	var firstScriptTag = document.getElementsByTagName('script')[0];
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-*/
 });
