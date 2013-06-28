@@ -196,6 +196,33 @@ jQuery.tubeplayer.defaults.afterReady = function($player){
 	hideBuffering();
 }
 
+function crossDomainSubmit(item) {
+  // Add the iframe with a unique name
+  var uniqueString = "crossDomainForm-"+jQuery("iframe").length;
+  var iframe = document.createElement("iframe");
+  document.body.appendChild(iframe);
+  iframe.style.display = "none";
+  iframe.contentWindow.name = uniqueString;
+
+  // construct a form with hidden inputs, targeting the iframe
+  var form = document.createElement("form");
+  form.target = uniqueString;
+  form.action = item.attr("action");
+  form.method = item.attr("method");
+
+  // repeat for each parameter
+  item.find("input").each(function() {
+	  var input = document.createElement("input");
+	  input.type = "hidden";
+	  input.name = jQuery(this).attr("name");
+	  input.value = jQuery(this).val();
+	  form.appendChild(input);
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+}
+
 jQuery(document).ready(function(e) {
 
 	// Разбор строки запроса на элементы
@@ -408,17 +435,36 @@ jQuery(document).ready(function(e) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		if (jQuery('#callbackForm').valid()) {
 			jQuery('#callbackForm').ajaxSubmit({
-				timeout:   3000, 
+				timeout:   3000,
+				dataFilter: function( data, type ) {
+					console.log("data:",data);
+					console.log("type:",type);
+				},
 				success:    function() { 
 					hideCurrentMenu();
 					currentIndex = 4;
         			clearForm();
 					showCurrentMenu();
 				},
-				error:		function() {
-					alert("Error to send form");
+				beforeSend:		function(xhr, settings) {
+					console.log("xhr:",xhr);
+					console.log("settings:",settings);
+				},
+				error:		function(xhr, textStatus, thrownError) {
+					// Here's where you handle an error response.
+    				// Note that if the error was due to a CORS issue,
+    				// this function will still fire, but there won't be any additional
+    				// information about the error.
+					//alert("Error to send form");
+					console.log("xhr:",xhr);
+					console.log("textStatus:",textStatus);
+					console.log("thrownError:",thrownError);
+					
+					crossDomainSubmit(jQuery('#callbackForm'));
+					
 					hideCurrentMenu();
-					currentIndex = 3;
+					currentIndex = 4;
+        			clearForm();
 					showCurrentMenu();
 				}
 			});
