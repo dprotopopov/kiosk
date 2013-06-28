@@ -66,7 +66,7 @@ function playCurrentPlayer() {
 				jQuery(tubeplayer).tubeplayer("play");
 			}
 			catch(e) {
-				alert("tubeplayer:"+e);
+				console.log("tubeplayer:",e);
 			}
 		}
 		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
@@ -75,7 +75,7 @@ function playCurrentPlayer() {
 				ytplayer.playVideo();
 			}
 			catch(e) {
-				alert("youtube player api:"+e);
+				console.log("youtube player api:",e);
 			}
 		}
 		else {
@@ -84,7 +84,7 @@ function playCurrentPlayer() {
 				player.play();
 			}
 			catch(e) {
-				alert("video html5:"+e);
+				console.log("video html5:",e);
 			}
 		}
 	}
@@ -98,7 +98,7 @@ function pauseCurrentPlayer() {
 				jQuery(tubeplayer).tubeplayer("pause");
 			}
 			catch(e) {
-				alert("tubeplayer:"+e);
+				console.log("tubeplayer:",e);
 			}
 		}
 		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
@@ -107,7 +107,7 @@ function pauseCurrentPlayer() {
 				ytplayer.pauseVideo();
 			}
 			catch(e) {
-				alert("youtube player api:"+e);
+				console.log("youtube player api:",e);
 			}
 		}
 		else {
@@ -116,7 +116,7 @@ function pauseCurrentPlayer() {
 				player.pause();
 			}
 			catch(e) {
-				alert("video html5:"+e);
+				console.log("video html5:",e);
 			}
 		}
 	}
@@ -151,10 +151,10 @@ function onPlayerReady(event) {
   
 function onPlayerStateChange(event) {
 //	alert("Player's new state: " + event.data);
-	if (event.data == YT.PlayerState.BUFFERING)
-	  showBuffering();
-	
 	switch(event.data) {
+	case YT.PlayerState.BUFFERING:
+//		showBuffering();
+		break;
 	case YT.PlayerState.PAUSED:
 	  	hideBuffering();
 		showCurrentStop();
@@ -221,6 +221,34 @@ function crossDomainSubmit(item) {
 
   document.body.appendChild(form);
   form.submit();
+}
+function urldecode (str) {
+  // http://kevin.vanzonneveld.net
+  // +   original by: Philip Peterson
+  // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +      input by: AJ
+  // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: Brett Zamir (http://brett-zamir.me)
+  // +      input by: travc
+  // +      input by: Brett Zamir (http://brett-zamir.me)
+  // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: Lars Fischer
+  // +      input by: Ratheous
+  // +   improved by: Orlando
+  // +      reimplemented by: Brett Zamir (http://brett-zamir.me)
+  // +      bugfixed by: Rob
+  // +      input by: e-mike
+  // +   improved by: Brett Zamir (http://brett-zamir.me)
+  // %        note 1: info on what encoding functions to use from: http://xkr.us/articles/javascript/encode-compare/
+  // %        note 2: Please be aware that this function expects to decode from UTF-8 encoded strings, as found on
+  // %        note 2: pages served as UTF-8
+  // *     example 1: urldecode('Kevin+van+Zonneveld%21');
+  // *     returns 1: 'Kevin van Zonneveld!'
+  // *     example 2: urldecode('http%3A%2F%2Fkevin.vanzonneveld.net%2F');
+  // *     returns 2: 'http://kevin.vanzonneveld.net/'
+  // *     example 3: urldecode('http%3A%2F%2Fwww.google.nl%2Fsearch%3Fq%3Dphp.js%26ie%3Dutf-8%26oe%3Dutf-8%26aq%3Dt%26rls%3Dcom.ubuntu%3Aen-US%3Aunofficial%26client%3Dfirefox-a');
+  // *     returns 3: 'http://www.google.nl/search?q=php.js&ie=utf-8&oe=utf-8&aq=t&rls=com.ubuntu:en-US:unofficial&client=firefox-a'
+  return decodeURIComponent((str + '').replace(/\+/g, '%20'));
 }
 
 jQuery(document).ready(function(e) {
@@ -357,7 +385,7 @@ jQuery(document).ready(function(e) {
 	});
 
 	// Инициализация для YouTube Player API
-	if (jQuery(".ytplayer").length>0) {	
+	if (jQuery(".ytplayer").length) {	
 		// Load the IFrame Player API code asynchronously.
 		var tag = document.createElement('script');
 		tag.src = "https://www.youtube.com/player_api";
@@ -381,7 +409,7 @@ jQuery(document).ready(function(e) {
 	// Заполняем элементы ввода значениями переданными в параметрах
 	url.attr("query").split("&").forEach(function (value,index) {
 		var ar = value.split("=");
-		jQuery("input[name*='"+ar[0]+"']").val(ar[1]);
+		jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
 	});
 
 	// Проверка встроенной поддержки для <input type="date">
