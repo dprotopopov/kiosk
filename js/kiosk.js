@@ -253,8 +253,14 @@ function urldecode (str) {
 
 jQuery(document).ready(function(e) {
 
+	// Переадресация на мобильную версию
+	if(jQuery.browser.mobile) {
+		window.location.hostname = "m.safeguardingstemcells.com";
+	}
+	
 	// Разбор строки запроса на элементы
 	var url = jQuery.url(jQuery(location).attr("href"));
+	
 	
 	// Выбор способа воспроизведения видео
 	// Для KioskPro, используется HTML5 video 
@@ -409,6 +415,7 @@ jQuery(document).ready(function(e) {
 	// Заполняем элементы ввода значениями переданными в параметрах
 	url.attr("query").split("&").forEach(function (value,index) {
 		var ar = value.split("=");
+		console.log(ar[0],ar[1]);
 		jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
 	});
 
