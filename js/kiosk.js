@@ -33,8 +33,8 @@ function showSurveyDialog() {
 			"Submit": function() {
 				jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
 				jQuery(this).dialog("close");
-			},
-		},
+			}
+		}
 	}); 
 }
 function hideSurveyDialog() { jQuery("#surveyForm").hide(); }
@@ -123,7 +123,7 @@ function pauseCurrentPlayer() {
 }
 
 function onYouTubePlayerAPIReady() {
-	//alert("API is ready!");
+	console.log("YouTube Player API is ready!");
 	jQuery(".ytplayer").each(function(i,e) {
 		var ytplayer;
 		ytplayer = new YT.Player(jQuery(this).attr("id"), {
@@ -142,7 +142,7 @@ function onYouTubePlayerAPIReady() {
 }
 
 function onPlayerError(event) {
-	alert(event.data);
+	console.log(event.data);
 }
   
 function onPlayerReady(event) {
@@ -150,7 +150,7 @@ function onPlayerReady(event) {
 }
   
 function onPlayerStateChange(event) {
-//	alert("Player's new state: " + event.data);
+	console.log("Player's new state: ",event.data);
 	switch(event.data) {
 	case YT.PlayerState.BUFFERING:
 //		showBuffering();
@@ -254,41 +254,61 @@ function urldecode (str) {
 jQuery(document).ready(function(e) {
 
 	// Переадресация на мобильную версию
+	console.log("Переадресация на мобильную версию","start");
 	if(jQuery.browser.mobile) {
 		window.location.hostname = "m.safeguardingstemcells.com";
 	}
+	console.log("Переадресация на мобильную версию","end");
 	
 	// Разбор строки запроса на элементы
-	var url = jQuery.url(jQuery(location).attr("href"));
+	console.log("Разбор строки запроса на элементы","start");
+	var url = false;
+	try {
+		url = jQuery.url(jQuery(location).attr("href"));
+	} catch (e) {
+		console.log("jQuery.url error",e);
+	}
+	console.log("Разбор строки запроса на элементы","end");
 	
 	
 	// Выбор способа воспроизведения видео
 	// Для KioskPro, используется HTML5 video 
 	// Для остальных случаев воспроизводим с YouTube
+	console.log("Выбор способа воспроизведения видео","start");
 	if(typeof kioskpro_id === 'undefined') {
 		jQuery("video").remove();
 	} else {
 		jQuery(".tubeplayer,.ytplayer").remove();
 	}
+	console.log("Выбор способа воспроизведения видео","end");
 
 	// Проверка для Kentico
 	// Открываем окно с неуспешным результатом отправки формы
 	// Убрать когда точно не будем использовать Kentico
-	if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
-		currentIndex = 3;
-	} else {
-		currentIndex = 0;
+	console.log("Проверка для Kentico","start");
+	try {
+		if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
+			currentIndex = 3;
+		} else {
+			currentIndex = 0;
+		}
+	} catch(e) {
+		console.log("error",e);
 	}
+	console.log("Проверка для Kentico","end");
 	
 	// Проверка для Kentico
 	// Открываем окно с успешным результатом отправки формы
 	// Убрать когда точно не будем использовать Kentico
+	console.log("Проверка для Kentico","start");
 	if(jQuery(".InfoLabel").length) {
 		jQuery(".InfoLabel").remove();
 		currentIndex = 4;
 		clearForm();
 	}		
+	console.log("Проверка для Kentico","end");
 	
+	console.log("Инициализация html5 video","start");
 	jQuery("video").each(function(i,e) {
 		var player = this;
 			
@@ -315,10 +335,12 @@ jQuery(document).ready(function(e) {
 			showBuffering();
 		}, false);
 		player.addEventListener("error", function(e){
-			alert("an error in playback.");
+			console.log("an error in playback.");
 		}, false);
 	});
+	console.log("Инициализация html5 video","end");
 
+	console.log("Инициализация tubeplayer","start");
 	jQuery(".tubeplayer").each(function(i,e) {
 		jQuery(this).tubeplayer({
 			width: "100%", // the width of the player
@@ -379,18 +401,20 @@ jQuery(document).ready(function(e) {
 				showBuffering();
 			}, // when the player returns a state of buffering
 			onErrorNotFound: function(){
-				alert("a video cant be found");
+				console.log("a video cant be found");
 			}, // if a video cant be found
 			onErrorNotEmbeddable: function(){
-				alert("a video isnt embeddable");
+				console.log("a video isnt embeddable");
 			}, // if a video isnt embeddable
 			onErrorInvalidParameter: function(){
-				alert("we've got an invalid param");
+				console.log("we've got an invalid param");
 			} // if we've got an invalid param
 		});
 	});
+	console.log("Инициализация tubeplayer","end");
 
 	// Инициализация для YouTube Player API
+	console.log("Инициализация YouTube Player API","start");
 	if (jQuery(".ytplayer").length) {	
 		// Load the IFrame Player API code asynchronously.
 		var tag = document.createElement('script');
@@ -398,6 +422,7 @@ jQuery(document).ready(function(e) {
 		var firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}
+	console.log("Инициализация YouTube Player API","end");
 /*
 	jQuery("input[name*='expected_delivery_date']").attr("type","date");
 	jQuery("input[name*='due_date']").attr("type","date");
@@ -409,22 +434,36 @@ jQuery(document).ready(function(e) {
 	jQuery("input[id*='url']").parent().hide();
 	jQuery("input[id*='ipad_id']").parent().hide();
 */
-	jQuery("input[name*='ipad_id']").val(getID());
-	jQuery("input[name*='url']").val(jQuery(location).attr('href'));
+	console.log("Инициализация переменных","start");
+	try {
+		jQuery("input[name*='ipad_id']").val(getID());
+		jQuery("input[name*='url']").val(jQuery(location).attr('href'));
+	} catch(e) {
+		console.log("error",e);
+	}
+	console.log("Инициализация переменных","end");
 
 	// Заполняем элементы ввода значениями переданными в параметрах
-	url.attr("query").split("&").forEach(function (value,index) {
-		var ar = value.split("=");
-		console.log(ar[0],ar[1]);
-		jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
-	});
+	console.log("Заполняем элементы ввода значениями переданными в параметрах","start");
+	try {
+		url.attr("query").split("&").forEach(function (value,index) {
+			var ar = value.split("=");
+			console.log(ar[0],ar[1]);
+			jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
+		});
+	} catch (e) {
+		console.log('url.attr("query").split("&").forEach error',e);
+	}
+	console.log("Заполняем элементы ввода значениями переданными в параметрах","end");
 
 	// Проверка встроенной поддержки для <input type="date">
 	// Если нет встроенной поддержки для <input type="date">,
 	// то заменяем <input type="date"> на <input type="text">
+	console.log("Проверка встроенной поддержки для <input type='date'>","start");
 	if (!Modernizr.inputtypes.date) {
 		jQuery("input[type='date']").attr("type","text");
 	}
+	console.log("Проверка встроенной поддержки для <input type='date'>","end");
 	
 	// Обработка поля due_date если нет встроенной поддержки для <input type="date">
 	jQuery("input[name*='due_date'][type='text']").focus(function(event) { 
@@ -462,7 +501,7 @@ jQuery(document).ready(function(e) {
 	// Открытие формы вопроса перед началом использования сайта
 	// Условие - либо нет iPadID, либо в строке адреса нет параметров
 	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
-	&& !url.attr("query") && !url.attr("fragment")) {
+	&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
 		showSurveyDialog();
 	}
 	
@@ -490,7 +529,7 @@ jQuery(document).ready(function(e) {
     				// Note that if the error was due to a CORS issue,
     				// this function will still fire, but there won't be any additional
     				// information about the error.
-					//alert("Error to send form");
+					console.log("Error to send form");
 					console.log("xhr:",xhr);
 					console.log("textStatus:",textStatus);
 					console.log("thrownError:",thrownError);
