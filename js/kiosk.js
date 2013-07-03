@@ -27,6 +27,15 @@ function hideBuffering() { jQuery("#buffering").hide(); }
 function fullScreen() { jQuery("#window").fullScreen(true); }
 function updateHeight() { jQuery("#window").height(jQuery(window).height()); }
 function showSurveyDialog() { 
+	jQuery('#surveyForm').keypress(function(event) {
+		if (event.keyCode == jQuery.ui.keyCode.ENTER) {
+				if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+				debugWrite("event.keyCode","ENTER");
+				debugWrite("Ответ",jQuery("input[name*='answer']").val());
+				jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
+				jQuery(this).dialog("close");
+		}
+	});
 	jQuery("#surveyForm").dialog({
 		minWidth: 480,
 		buttons: {
