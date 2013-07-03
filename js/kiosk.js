@@ -31,7 +31,7 @@ function showSurveyDialog() {
 		minWidth: 480,
 		buttons: {
 			"Submit": function() {
-				console.log("Ответ",jQuery("input[name*='answer']").val());
+				debugWrite("Ответ",jQuery("input[name*='answer']").val());
 				jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
 				jQuery(this).dialog("close");
 			}
@@ -67,7 +67,7 @@ function playCurrentPlayer() {
 				jQuery(tubeplayer).tubeplayer("play");
 			}
 			catch(e) {
-				console.log("tubeplayer:",e);
+				debugWrite("tubeplayer:",e);
 			}
 		}
 		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
@@ -76,7 +76,7 @@ function playCurrentPlayer() {
 				ytplayer.playVideo();
 			}
 			catch(e) {
-				console.log("youtube player api:",e);
+				debugWrite("youtube player api:",e);
 			}
 		}
 		else {
@@ -85,7 +85,7 @@ function playCurrentPlayer() {
 				player.play();
 			}
 			catch(e) {
-				console.log("video html5:",e);
+				debugWrite("video html5:",e);
 			}
 		}
 	}
@@ -99,7 +99,7 @@ function pauseCurrentPlayer() {
 				jQuery(tubeplayer).tubeplayer("pause");
 			}
 			catch(e) {
-				console.log("tubeplayer:",e);
+				debugWrite("tubeplayer:",e);
 			}
 		}
 		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
@@ -108,7 +108,7 @@ function pauseCurrentPlayer() {
 				ytplayer.pauseVideo();
 			}
 			catch(e) {
-				console.log("youtube player api:",e);
+				debugWrite("youtube player api:",e);
 			}
 		}
 		else {
@@ -117,14 +117,14 @@ function pauseCurrentPlayer() {
 				player.pause();
 			}
 			catch(e) {
-				console.log("video html5:",e);
+				debugWrite("video html5:",e);
 			}
 		}
 	}
 }
 
 function onYouTubePlayerAPIReady() {
-	console.log("YouTube Player API is ready!");
+	debugWrite("YouTube Player API is ready!");
 	jQuery(".ytplayer").each(function(i,e) {
 		var ytplayer;
 		ytplayer = new YT.Player(jQuery(this).attr("id"), {
@@ -143,7 +143,7 @@ function onYouTubePlayerAPIReady() {
 }
 
 function onPlayerError(event) {
-	console.log(event.data);
+	debugWrite(event.data);
 }
   
 function onPlayerReady(event) {
@@ -151,7 +151,7 @@ function onPlayerReady(event) {
 }
   
 function onPlayerStateChange(event) {
-	console.log("Player's new state: ",event.data);
+	debugWrite("Player's new state: ",event.data);
 	switch(event.data) {
 	case YT.PlayerState.BUFFERING:
 //		showBuffering();
@@ -206,31 +206,31 @@ function crossDomainSubmit(item) {
   try {
   	iframe.contentWindow.name = uniqueString;
   } catch(e) {
-  	console.log('iframe.contentWindow.name error',e);
+  	debugWrite('iframe.contentWindow.name error',e);
   }
-  console.log('iframe.contentWindow.name',iframe.contentWindow.name);
+  debugWrite('iframe.contentWindow.name',iframe.contentWindow.name);
 
   // construct a form with hidden inputs, targeting the iframe
   var form = document.createElement("form");
   form.target = iframe.contentWindow.name;
-  console.log('form.target',form.target);
-  console.log('item.attr("action")',item.attr("action"));
+  debugWrite('form.target',form.target);
+  debugWrite('item.attr("action")',item.attr("action"));
   form.action = item.attr("action");
-  console.log('form.action',form.action);
-  console.log('item.attr("method")',item.attr("method"));
+  debugWrite('form.action',form.action);
+  debugWrite('item.attr("method")',item.attr("method"));
   form.method = item.attr("method");
-  console.log('form.method',form.method);
+  debugWrite('form.method',form.method);
 
   // repeat for each parameter
   item.find("input").each(function(index, element) {
 	  var input = document.createElement("input");
 	  input.type = "hidden";
-  	  console.log("element.name",element.name);
+  	  debugWrite("element.name",element.name);
 	  input.name = element.name;
-  	  console.log("input.name",input.name);
-  	  console.log("element.value",element.value);
+  	  debugWrite("input.name",input.name);
+  	  debugWrite("element.value",element.value);
 	  input.value = element.value;
-  	  console.log("input.value",input.value);
+  	  debugWrite("input.value",input.value);
 	  form.appendChild(input);
   });
 
@@ -265,42 +265,48 @@ function urldecode (str) {
   // *     returns 3: 'http://www.google.nl/search?q=php.js&ie=utf-8&oe=utf-8&aq=t&rls=com.ubuntu:en-US:unofficial&client=firefox-a'
   return decodeURIComponent((str + '').replace(/\+/g, '%20'));
 }
+function debugWrite(a,b) {
+	try {
+		console.log(a,b);
+	} catch (e) {
+	}
+}
 
 jQuery(document).ready(function(e) {
 
 	// Переадресация на мобильную версию
-	console.log("Переадресация на мобильную версию","start");
+	debugWrite("Переадресация на мобильную версию","start");
 	if(jQuery.browser.mobile) {
 		window.location.hostname = "m.safeguardingstemcells.com";
 	}
-	console.log("Переадресация на мобильную версию","end");
+	debugWrite("Переадресация на мобильную версию","end");
 	
 	// Разбор строки запроса на элементы
-	console.log("Разбор строки запроса на элементы","start");
+	debugWrite("Разбор строки запроса на элементы","start");
 	var url = false;
 	try {
 		url = jQuery.url(window.location.toString());
 	} catch (e) {
-		console.log("jQuery.url error",e);
+		debugWrite("jQuery.url error",e);
 	}
-	console.log("Разбор строки запроса на элементы","end");
+	debugWrite("Разбор строки запроса на элементы","end");
 	
 	
 	// Выбор способа воспроизведения видео
 	// Для KioskPro, используется HTML5 video 
 	// Для остальных случаев воспроизводим с YouTube
-	console.log("Выбор способа воспроизведения видео","start");
+	debugWrite("Выбор способа воспроизведения видео","start");
 	if(typeof kioskpro_id === 'undefined') {
 		jQuery("video").remove();
 	} else {
 		jQuery(".tubeplayer,.ytplayer").remove();
 	}
-	console.log("Выбор способа воспроизведения видео","end");
+	debugWrite("Выбор способа воспроизведения видео","end");
 
 	// Проверка для Kentico
 	// Открываем окно с неуспешным результатом отправки формы
 	// Убрать когда точно не будем использовать Kentico
-	console.log("Проверка для Kentico","start");
+	debugWrite("Проверка для Kentico","start");
 	try {
 		if(jQuery("input[name*='url']").val()==window.location.toString()) {
 			currentIndex = 3;
@@ -308,22 +314,22 @@ jQuery(document).ready(function(e) {
 			currentIndex = 0;
 		}
 	} catch(e) {
-		console.log("error",e);
+		debugWrite("error",e);
 	}
-	console.log("Проверка для Kentico","end");
+	debugWrite("Проверка для Kentico","end");
 	
 	// Проверка для Kentico
 	// Открываем окно с успешным результатом отправки формы
 	// Убрать когда точно не будем использовать Kentico
-	console.log("Проверка для Kentico","start");
+	debugWrite("Проверка для Kentico","start");
 	if(jQuery(".InfoLabel").length) {
 		jQuery(".InfoLabel").remove();
 		currentIndex = 4;
 		clearForm();
 	}		
-	console.log("Проверка для Kentico","end");
+	debugWrite("Проверка для Kentico","end");
 	
-	console.log("Инициализация html5 video","start");
+	debugWrite("Инициализация html5 video","start");
 	jQuery("video").each(function(i,e) {
 		var player = this;
 			
@@ -350,12 +356,12 @@ jQuery(document).ready(function(e) {
 			showBuffering();
 		}, false);
 		player.addEventListener("error", function(e){
-			console.log("an error in playback.");
+			debugWrite("an error in playback.");
 		}, false);
 	});
-	console.log("Инициализация html5 video","end");
+	debugWrite("Инициализация html5 video","end");
 
-	console.log("Инициализация tubeplayer","start");
+	debugWrite("Инициализация tubeplayer","start");
 	jQuery(".tubeplayer").each(function(i,e) {
 		jQuery(this).tubeplayer({
 			width: "100%", // the width of the player
@@ -416,20 +422,20 @@ jQuery(document).ready(function(e) {
 				showBuffering();
 			}, // when the player returns a state of buffering
 			onErrorNotFound: function(){
-				console.log("a video cant be found");
+				debugWrite("tubeplayer","a video cant be found");
 			}, // if a video cant be found
 			onErrorNotEmbeddable: function(){
-				console.log("a video isnt embeddable");
+				debugWrite("tubeplayer","a video isnt embeddable");
 			}, // if a video isnt embeddable
 			onErrorInvalidParameter: function(){
-				console.log("we've got an invalid param");
+				debugWrite("tubeplayer","we've got an invalid param");
 			} // if we've got an invalid param
 		});
 	});
-	console.log("Инициализация tubeplayer","end");
+	debugWrite("Инициализация tubeplayer","end");
 
 	// Инициализация для YouTube Player API
-	console.log("Инициализация YouTube Player API","start");
+	debugWrite("Инициализация YouTube Player API","start");
 	if (jQuery(".ytplayer").length) {	
 		// Load the IFrame Player API code asynchronously.
 		var tag = document.createElement('script');
@@ -437,7 +443,7 @@ jQuery(document).ready(function(e) {
 		var firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}
-	console.log("Инициализация YouTube Player API","end");
+	debugWrite("Инициализация YouTube Player API","end");
 /*
 	jQuery("input[name*='expected_delivery_date']").attr("type","date");
 	jQuery("input[name*='due_date']").attr("type","date");
@@ -449,39 +455,43 @@ jQuery(document).ready(function(e) {
 	jQuery("input[id*='url']").parent().hide();
 	jQuery("input[id*='ipad_id']").parent().hide();
 */
-	console.log("Инициализация переменных","start");
+	debugWrite("Инициализация переменных","start");
 	try {
 		jQuery("input[name*='ipad_id']").val(getID());
 		jQuery("input[name*='url']").val(window.location.toString());
 	} catch(e) {
-		console.log("error",e);
+		debugWrite("error",e);
 	}
-	console.log("Инициализация переменных","end");
+	debugWrite("Инициализация переменных","end");
 
 	// Заполняем элементы ввода значениями переданными в параметрах
-	console.log("Заполняем элементы ввода значениями переданными в параметрах","start");
+	debugWrite("Заполняем элементы ввода значениями переданными в параметрах","start");
 	try {
 		url.attr("query").split("&").forEach(function (value,index) {
 			var ar = value.split("=");
-			console.log(ar[0],ar[1]);
+			debugWrite(ar[0],ar[1]);
 			jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
 		});
 	} catch (e) {
-		console.log('url.attr("query").split("&").forEach error',e);
+		debugWrite('url.attr("query").split("&").forEach error',e);
 	}
-	console.log("Заполняем элементы ввода значениями переданными в параметрах","end");
+	debugWrite("Заполняем элементы ввода значениями переданными в параметрах","end");
 
 	// Проверка встроенной поддержки для <input type="date">
 	// Если нет встроенной поддержки для <input type="date">,
 	// то заменяем <input type="date"> на <input type="text">
-	console.log("Проверка встроенной поддержки для <input type='date'>","start");
+	debugWrite("Проверка встроенной поддержки для <input type='date'>","start");
 	if (!Modernizr.inputtypes.date) {
-		jQuery("input[type='date']").attr("type","text");
+		try {
+			jQuery("input[type='date']").attr("type","text");
+		} catch (e) {
+			debugWrite('jQuery("input[type=\'date\']").attr("type","text") error',e);
+		}
 	}
-	console.log("Проверка встроенной поддержки для <input type='date'>","end");
+	debugWrite("Проверка встроенной поддержки для <input type='date'>","end");
 	
 	// Обработка поля due_date если нет встроенной поддержки для <input type="date">
-	console.log("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","start");
+	debugWrite("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","start");
 	jQuery("input[name*='due_date'][type='text']").focus(function(event) { 
 		jQuery( "input[name*='due_date']" ).datepicker( 
 			"dialog", 
@@ -494,29 +504,29 @@ jQuery(document).ready(function(e) {
 			}
 		);
 	});
-	console.log("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","end");
+	debugWrite("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","end");
 
-	console.log("Установка маски ввода (999) 999-9999","start");
+	debugWrite("Установка маски ввода (999) 999-9999","start");
 	try {
 		jQuery("input[name*='phone']").mask("(999) 999-9999");
 	} catch (e) {
-		console.log('jQuery("input[name*=\'phone\']").mask("(999) 999-9999") error',e);
+		debugWrite('jQuery("input[name*=\'phone\']").mask("(999) 999-9999") error',e);
 	}
-	console.log("Установка маски ввода (999) 999-9999","end");
+	debugWrite("Установка маски ввода (999) 999-9999","end");
 
-	console.log("hideDoctor","start");
+	debugWrite("hideDoctor","start");
 	hideDoctor();
-	console.log("hideDoctor","end");
+	debugWrite("hideDoctor","end");
 	
-	console.log("Установка валидации форм","start");
+	debugWrite("Установка валидации форм","start");
 	try {
 		jQuery("form").validate();
 	} catch (e) {
-		console.log('jQuery("form").validate() error',e);
+		debugWrite('jQuery("form").validate() error',e);
 	}
-	console.log("Установка валидации форм","end");
+	debugWrite("Установка валидации форм","end");
 	
-	console.log("Выключение отображения элементов","start");
+	debugWrite("Выключение отображения элементов","start");
 	try {
 		jQuery(".stop").hide();
 		jQuery(".video-contact").hide();
@@ -525,86 +535,86 @@ jQuery(document).ready(function(e) {
 		hideBuffering();
 		hideSurveyDialog();
 	} catch (e) {
-		console.log('error',e);
+		debugWrite('error',e);
 	}
-	console.log("Выключение отображения элементов","end");
+	debugWrite("Выключение отображения элементов","end");
 	
-	console.log("Изменение размера элементов под размер экрана","start");
+	debugWrite("Изменение размера элементов под размер экрана","start");
 	try {
 		updateHeight();
 	} catch (e) {
-		console.log('updateHeight error',e);
+		debugWrite('updateHeight error',e);
 	}
-	console.log("Изменение размера элементов под размер экрана","start");
+	debugWrite("Изменение размера элементов под размер экрана","start");
 	
-	console.log("Отображение текущего меню","start");
+	debugWrite("Отображение текущего меню","start");
 	showCurrentMenu();
-	console.log("Отображение текущего меню","end");
+	debugWrite("Отображение текущего меню","end");
 
 	jQuery(window).resize(function() {
 		updateHeight();
 	});
 	
-	console.log("Попытка включения полноэкранного режима","start");
+	debugWrite("Попытка включения полноэкранного режима","start");
 	try {
 		fullScreen();
 	} catch (e) {
-		console.log('fullScreen error',e);
+		debugWrite('fullScreen error',e);
 	}
-	console.log("Попытка включения полноэкранного режима","end");
+	debugWrite("Попытка включения полноэкранного режима","end");
 	
 	// Открытие формы вопроса перед началом использования сайта
 	// Условие - либо нет iPadID, либо в строке адреса нет параметров
-	console.log("Проверка и открытие формы вопроса","start");
+	debugWrite("Проверка и открытие формы вопроса","start");
 	try {
 		if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
 		&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
 			showSurveyDialog();
 		}
 	} catch (e) {
-		console.log('error',e);
+		debugWrite('error',e);
 	}
-	console.log("Проверка и открытие формы вопроса","end");
+	debugWrite("Проверка и открытие формы вопроса","end");
 	
 	jQuery(".save").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		var isValid = false
-		console.log("Валидация формы обратной связи","start");
+		debugWrite("Валидация формы обратной связи","start");
 		try {
 			isValid = jQuery("#callbackForm").valid();
 		} catch (e) {
-			console.log('jQuery("#callbackForm").valid() error',e);
-			console.log("Ручная валидация формы обратной связи","start");
+			debugWrite('jQuery("#callbackForm").valid() error',e);
+			debugWrite("Ручная валидация формы обратной связи","start");
 			jQuery("input").removeClass("error");
 			jQuery(".error").remove();
 			jQuery(".ErrorLabel").remove();
 			jQuery(".EditingFormErrorLabel").remove();
 			isValid = true;
 			jQuery("#callbackForm").find("input.required").each(function(index, element) {
-				console.log("Валидация элемента",element.getAttribute("name"));
+				debugWrite("Валидация элемента",element.getAttribute("name"));
                 if(!element.value) {
-					console.log("Элемент не валидный");
+					debugWrite("Элемент не валидный",element);
 					isValid = false;
-					console.log("Добавление сообщения об ошибке","start");
+					debugWrite("Добавление сообщения об ошибке","start");
 					//$(element).addClass("error");
  					var error = document.createElement("label");
 					error.setAttribute("for",element.getAttribute("name"));
 					error.className = 'error';
 					element.parentNode.appendChild(error);
-					console.log("Добавление сообщения об ошибке","end");
+					debugWrite("Добавление сообщения об ошибке","end");
 				}
             });
-			console.log("Ручная валидация формы обратной связи","end");
+			debugWrite("Ручная валидация формы обратной связи","end");
 		}
-		console.log("Валидация формы обратной связи","end");
+		debugWrite("Валидация формы обратной связи","end");
 		if (isValid) {
-			console.log("Отправка формы обратной связи","start");
+			debugWrite("Отправка формы обратной связи","start");
 			try {
 				jQuery("#callbackForm").ajaxSubmit({
 					timeout:   3000,
 					dataFilter: function( data, type ) {
-						console.log("data:",data);
-						console.log("type:",type);
+						debugWrite("data:",data);
+						debugWrite("type:",type);
 					},
 					success:    function() { 
 						hideCurrentMenu();
@@ -613,21 +623,21 @@ jQuery(document).ready(function(e) {
 						showCurrentMenu();
 					},
 					beforeSend:		function(xhr, settings) {
-						console.log("xhr:",xhr);
-						console.log("settings:",settings);
+						debugWrite("xhr:",xhr);
+						debugWrite("settings:",settings);
 					},
 					error:		function(xhr, textStatus, thrownError) {
 						// Here's where you handle an error response.
 						// Note that if the error was due to a CORS issue,
 						// this function will still fire, but there won't be any additional
 						// information about the error.
-						console.log("Error to send form");
-						console.log("xhr:",xhr);
-						console.log("textStatus:",textStatus);
-						console.log("thrownError:",thrownError);
-						console.log("Ручная отправка кросс-доменной формы обратной связи","start");
+						debugWrite("#callbackForm","Error to send form");
+						debugWrite("xhr:",xhr);
+						debugWrite("textStatus:",textStatus);
+						debugWrite("thrownError:",thrownError);
+						debugWrite("Ручная отправка кросс-доменной формы обратной связи","start");
 						crossDomainSubmit(jQuery('#callbackForm'));
-						console.log("Ручная отправка кросс-доменной формы обратной связи","end");
+						debugWrite("Ручная отправка кросс-доменной формы обратной связи","end");
 						
 						hideCurrentMenu();
 						currentIndex = 4;
@@ -636,21 +646,21 @@ jQuery(document).ready(function(e) {
 					}
 				});
 			} catch (e) {
-				console.log('jQuery("#callbackForm").ajaxSubmit error',e);
-				console.log("Ручная отправка кросс-доменной формы обратной связи Попытка №2","start");
+				debugWrite('jQuery("#callbackForm").ajaxSubmit error',e);
+				debugWrite("Ручная отправка кросс-доменной формы обратной связи Попытка №2","start");
 				try {
 					crossDomainSubmit(jQuery('#callbackForm'));
 				} catch(e) {
-					console.log("crossDomainSubmit error",e);
+					debugWrite("crossDomainSubmit error",e);
 				}
-				console.log("Ручная отправка кросс-доменной формы обратной связи Попытка №2","end");
+				debugWrite("Ручная отправка кросс-доменной формы обратной связи Попытка №2","end");
 				
 				hideCurrentMenu();
 				currentIndex = 4;
 				clearForm();
 				showCurrentMenu();
 			}
-			console.log("Отправка формы обратной связи","end");
+			debugWrite("Отправка формы обратной связи","end");
 		}
 	});
 			
