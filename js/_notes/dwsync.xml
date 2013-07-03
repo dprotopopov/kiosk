@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="jquery.js" server="rbadesign.us/public_html/" local="130168565437421049" remote="130168242000000000" Dst="0" />
-<file name="jquery.form.js" server="rbadesign.us/public_html/" local="130149029776284435" remote="130154246400000000" Dst="0" />
-<file name="kiosk.js" server="rbadesign.us/public_html/" local="130172002815245626" remote="130171678800000000" Dst="0" />
-<file name="jquery.validate.js" server="rbadesign.us/public_html/" local="130149040895520419" remote="130154246400000000" Dst="0" />
-<file name="jquery-ui.js" server="rbadesign.us/public_html/" local="130149155260000000" remote="130154246400000000" Dst="0" />
-<file name="jquery.maskedinput.js" server="rbadesign.us/public_html/" local="130133473707729198" remote="130167241200000000" Dst="0" />
-<file name="purl.js" server="rbadesign.us/public_html/" local="130146914600000000" remote="130167241200000000" Dst="0" />
-<file name="jquery.tubeplayer.js" server="rbadesign.us/public_html/" local="130167479508689479" remote="130167241200000000" Dst="0" />
-<file name="modernizr.js" server="rbadesign.us/public_html/" local="130167586877340614" remote="130167280200000000" Dst="0" />
-<file name="jquery.fullscreen.js" server="rbadesign.us/public_html/" local="130167942308630121" remote="130167631200000000" Dst="0" />
-<file name="detectmobilebrowser.js" server="rbadesign.us/public_html/" local="130169717471553633" remote="130169397600000000" Dst="0" />
+<file name="jquery.js" server="rbadesign.us/public_html/" local="130173376504712162" remote="130168242000000000" Dst="0" />
+<file name="jquery.form.js" server="rbadesign.us/public_html/" local="130173376466849997" remote="130154246400000000" Dst="0" />
+<file name="kiosk.js" server="rbadesign.us/public_html/" local="130173376544604444" remote="130172875800000000" Dst="0" />
+<file name="jquery.validate.js" server="rbadesign.us/public_html/" local="130173376532903775" remote="130154246400000000" Dst="0" />
+<file name="jquery-ui.js" server="rbadesign.us/public_html/" local="130173376592637191" remote="130154246400000000" Dst="0" />
+<file name="jquery.maskedinput.js" server="rbadesign.us/public_html/" local="130173376475310480" remote="130167241200000000" Dst="0" />
+<file name="purl.js" server="rbadesign.us/public_html/" local="130173376592037157" remote="130167241200000000" Dst="0" />
+<file name="jquery.tubeplayer.js" server="rbadesign.us/public_html/" local="130173376517652902" remote="130167241200000000" Dst="0" />
+<file name="modernizr.js" server="rbadesign.us/public_html/" local="130173376592117161" remote="130167280200000000" Dst="0" />
+<file name="jquery.fullscreen.js" server="rbadesign.us/public_html/" local="130173376459199559" remote="130167631200000000" Dst="0" />
+<file name="detectmobilebrowser.js" server="rbadesign.us/public_html/" local="130173376394595864" remote="130169397600000000" Dst="0" />
+<file name="html5shiv-printshiv.js" server="rbadesign.us/public_html/" local="130173376432138011" remote="130172923200000000" Dst="0" />
+<file name="html5shiv.js" server="rbadesign.us/public_html/" local="130173376448298936" remote="130172923200000000" Dst="0" />
 </dwsync>

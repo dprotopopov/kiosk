@@ -31,6 +31,7 @@ function showSurveyDialog() {
 		minWidth: 480,
 		buttons: {
 			"Submit": function() {
+				console.log("Ответ",jQuery("input[name*='answer']").val());
 				jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
 				jQuery(this).dialog("close");
 			}
@@ -202,20 +203,34 @@ function crossDomainSubmit(item) {
   var iframe = document.createElement("iframe");
   document.body.appendChild(iframe);
   iframe.style.display = "none";
-  iframe.contentWindow.name = uniqueString;
+  try {
+  	iframe.contentWindow.name = uniqueString;
+  } catch(e) {
+  	console.log('iframe.contentWindow.name error',e);
+  }
+  console.log('iframe.contentWindow.name',iframe.contentWindow.name);
 
   // construct a form with hidden inputs, targeting the iframe
   var form = document.createElement("form");
-  form.target = uniqueString;
+  form.target = iframe.contentWindow.name;
+  console.log('form.target',form.target);
+  console.log('item.attr("action")',item.attr("action"));
   form.action = item.attr("action");
+  console.log('form.action',form.action);
+  console.log('item.attr("method")',item.attr("method"));
   form.method = item.attr("method");
+  console.log('form.method',form.method);
 
   // repeat for each parameter
-  item.find("input").each(function() {
+  item.find("input").each(function(index, element) {
 	  var input = document.createElement("input");
 	  input.type = "hidden";
-	  input.name = jQuery(this).attr("name");
-	  input.value = jQuery(this).val();
+  	  console.log("element.name",element.name);
+	  input.name = element.name;
+  	  console.log("input.name",input.name);
+  	  console.log("element.value",element.value);
+	  input.value = element.value;
+  	  console.log("input.value",input.value);
 	  form.appendChild(input);
   });
 
@@ -264,7 +279,7 @@ jQuery(document).ready(function(e) {
 	console.log("Разбор строки запроса на элементы","start");
 	var url = false;
 	try {
-		url = jQuery.url(jQuery(location).attr("href"));
+		url = jQuery.url(window.location.toString());
 	} catch (e) {
 		console.log("jQuery.url error",e);
 	}
@@ -287,7 +302,7 @@ jQuery(document).ready(function(e) {
 	// Убрать когда точно не будем использовать Kentico
 	console.log("Проверка для Kentico","start");
 	try {
-		if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
+		if(jQuery("input[name*='url']").val()==window.location.toString()) {
 			currentIndex = 3;
 		} else {
 			currentIndex = 0;
@@ -437,7 +452,7 @@ jQuery(document).ready(function(e) {
 	console.log("Инициализация переменных","start");
 	try {
 		jQuery("input[name*='ipad_id']").val(getID());
-		jQuery("input[name*='url']").val(jQuery(location).attr('href'));
+		jQuery("input[name*='url']").val(window.location.toString());
 	} catch(e) {
 		console.log("error",e);
 	}
@@ -466,6 +481,7 @@ jQuery(document).ready(function(e) {
 	console.log("Проверка встроенной поддержки для <input type='date'>","end");
 	
 	// Обработка поля due_date если нет встроенной поддержки для <input type="date">
+	console.log("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","start");
 	jQuery("input[name*='due_date'][type='text']").focus(function(event) { 
 		jQuery( "input[name*='due_date']" ).datepicker( 
 			"dialog", 
@@ -478,70 +494,163 @@ jQuery(document).ready(function(e) {
 			}
 		);
 	});
-	jQuery("input[name*='phone']").mask("(999) 999-9999");
+	console.log("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","end");
+
+	console.log("Установка маски ввода (999) 999-9999","start");
+	try {
+		jQuery("input[name*='phone']").mask("(999) 999-9999");
+	} catch (e) {
+		console.log('jQuery("input[name*=\'phone\']").mask("(999) 999-9999") error',e);
+	}
+	console.log("Установка маски ввода (999) 999-9999","end");
+
+	console.log("hideDoctor","start");
 	hideDoctor();
+	console.log("hideDoctor","end");
 	
-	jQuery("form").validate();
+	console.log("Установка валидации форм","start");
+	try {
+		jQuery("form").validate();
+	} catch (e) {
+		console.log('jQuery("form").validate() error',e);
+	}
+	console.log("Установка валидации форм","end");
 	
-	jQuery(".stop").hide();
-	jQuery(".video-contact").hide();
-	jQuery(".video-page").hide();
-	jQuery(".menu-page").hide();
-	updateHeight();
+	console.log("Выключение отображения элементов","start");
+	try {
+		jQuery(".stop").hide();
+		jQuery(".video-contact").hide();
+		jQuery(".video-page").hide();
+		jQuery(".menu-page").hide();
+		hideBuffering();
+		hideSurveyDialog();
+	} catch (e) {
+		console.log('error',e);
+	}
+	console.log("Выключение отображения элементов","end");
+	
+	console.log("Изменение размера элементов под размер экрана","start");
+	try {
+		updateHeight();
+	} catch (e) {
+		console.log('updateHeight error',e);
+	}
+	console.log("Изменение размера элементов под размер экрана","start");
+	
+	console.log("Отображение текущего меню","start");
 	showCurrentMenu();
-	hideBuffering();
-	hideSurveyDialog();
+	console.log("Отображение текущего меню","end");
 
 	jQuery(window).resize(function() {
 		updateHeight();
 	});
 	
-	fullScreen();
+	console.log("Попытка включения полноэкранного режима","start");
+	try {
+		fullScreen();
+	} catch (e) {
+		console.log('fullScreen error',e);
+	}
+	console.log("Попытка включения полноэкранного режима","end");
 	
 	// Открытие формы вопроса перед началом использования сайта
 	// Условие - либо нет iPadID, либо в строке адреса нет параметров
-	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
-	&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
-		showSurveyDialog();
+	console.log("Проверка и открытие формы вопроса","start");
+	try {
+		if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
+		&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
+			showSurveyDialog();
+		}
+	} catch (e) {
+		console.log('error',e);
 	}
+	console.log("Проверка и открытие формы вопроса","end");
 	
 	jQuery(".save").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		if (jQuery('#callbackForm').valid()) {
-			jQuery('#callbackForm').ajaxSubmit({
-				timeout:   3000,
-				dataFilter: function( data, type ) {
-					console.log("data:",data);
-					console.log("type:",type);
-				},
-				success:    function() { 
-					hideCurrentMenu();
-					currentIndex = 4;
-        			clearForm();
-					showCurrentMenu();
-				},
-				beforeSend:		function(xhr, settings) {
-					console.log("xhr:",xhr);
-					console.log("settings:",settings);
-				},
-				error:		function(xhr, textStatus, thrownError) {
-					// Here's where you handle an error response.
-    				// Note that if the error was due to a CORS issue,
-    				// this function will still fire, but there won't be any additional
-    				// information about the error.
-					console.log("Error to send form");
-					console.log("xhr:",xhr);
-					console.log("textStatus:",textStatus);
-					console.log("thrownError:",thrownError);
-					
-					crossDomainSubmit(jQuery('#callbackForm'));
-					
-					hideCurrentMenu();
-					currentIndex = 4;
-        			clearForm();
-					showCurrentMenu();
+		var isValid = false
+		console.log("Валидация формы обратной связи","start");
+		try {
+			isValid = jQuery("#callbackForm").valid();
+		} catch (e) {
+			console.log('jQuery("#callbackForm").valid() error',e);
+			console.log("Ручная валидация формы обратной связи","start");
+			jQuery("input").removeClass("error");
+			jQuery(".error").remove();
+			jQuery(".ErrorLabel").remove();
+			jQuery(".EditingFormErrorLabel").remove();
+			isValid = true;
+			jQuery("#callbackForm").find("input.required").each(function(index, element) {
+				console.log("Валидация элемента",element.getAttribute("name"));
+                if(!element.value) {
+					console.log("Элемент не валидный");
+					isValid = false;
+					console.log("Добавление сообщения об ошибке","start");
+					//$(element).addClass("error");
+ 					var error = document.createElement("label");
+					error.setAttribute("for",element.getAttribute("name"));
+					error.className = 'error';
+					element.parentNode.appendChild(error);
+					console.log("Добавление сообщения об ошибке","end");
 				}
-			});
+            });
+			console.log("Ручная валидация формы обратной связи","end");
+		}
+		console.log("Валидация формы обратной связи","end");
+		if (isValid) {
+			console.log("Отправка формы обратной связи","start");
+			try {
+				jQuery("#callbackForm").ajaxSubmit({
+					timeout:   3000,
+					dataFilter: function( data, type ) {
+						console.log("data:",data);
+						console.log("type:",type);
+					},
+					success:    function() { 
+						hideCurrentMenu();
+						currentIndex = 4;
+						clearForm();
+						showCurrentMenu();
+					},
+					beforeSend:		function(xhr, settings) {
+						console.log("xhr:",xhr);
+						console.log("settings:",settings);
+					},
+					error:		function(xhr, textStatus, thrownError) {
+						// Here's where you handle an error response.
+						// Note that if the error was due to a CORS issue,
+						// this function will still fire, but there won't be any additional
+						// information about the error.
+						console.log("Error to send form");
+						console.log("xhr:",xhr);
+						console.log("textStatus:",textStatus);
+						console.log("thrownError:",thrownError);
+						console.log("Ручная отправка кросс-доменной формы обратной связи","start");
+						crossDomainSubmit(jQuery('#callbackForm'));
+						console.log("Ручная отправка кросс-доменной формы обратной связи","end");
+						
+						hideCurrentMenu();
+						currentIndex = 4;
+						clearForm();
+						showCurrentMenu();
+					}
+				});
+			} catch (e) {
+				console.log('jQuery("#callbackForm").ajaxSubmit error',e);
+				console.log("Ручная отправка кросс-доменной формы обратной связи Попытка №2","start");
+				try {
+					crossDomainSubmit(jQuery('#callbackForm'));
+				} catch(e) {
+					console.log("crossDomainSubmit error",e);
+				}
+				console.log("Ручная отправка кросс-доменной формы обратной связи Попытка №2","end");
+				
+				hideCurrentMenu();
+				currentIndex = 4;
+				clearForm();
+				showCurrentMenu();
+			}
+			console.log("Отправка формы обратной связи","end");
 		}
 	});
 			

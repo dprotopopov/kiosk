@@ -3,6 +3,17 @@ body {
 	margin: 0px;
 	padding: 0px;
 	text-align:center;
+	min-height:100%;
+}
+body {
+	-webkit-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	-o-background-size: 100% 100%;
+	-khtml-background-size:100% 100%; /* Konqueror */
+	background-size: 100% 100%;
+	background-image: url(../images/background.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 #window {
 	position: relative;
@@ -16,16 +27,6 @@ body {
 	bottom:0;
 	margin:0;
 	padding:0;
-	-webkit-background-size: 100% 100%;
-	-moz-background-size: 100% 100%;
-	-o-background-size: 100% 100%;
-	background-size: 100% 100%;
-	background-attachment: fixed;
-	background-image: url(../images/background.jpg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/background.jpg', sizingMethod='scale');
-	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/background.jpg', sizingMethod='scale')";
 }
 #center-horizontal {
 	position:relative;
@@ -401,18 +402,18 @@ a.es-locale {
 	display:block;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 28px;
-	line-height: 30px;
+	line-height: 32px;
 }
 
 input[type="text"], input[type="tel"], input[type="date"], input[type="email"] {
 	width: 85%;
 	float:left;
-	height: 28px;
+	height: 32px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	font-size: 24px;
+	font-size: 28px;
 	vertical-align:middle;
 	text-align:center
 }
@@ -443,9 +444,7 @@ label {
 }
 
 .error, .ErrorLabel, .EditingFormErrorLabel {
-	font-size: 10px;
 	color: #F00;
-	line-height: 12px;
 }
 
 #page1 .prev, #page4 .next, #page5 .prev, #page5 .next {
