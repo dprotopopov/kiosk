@@ -236,12 +236,12 @@ body {
 	left:50%;
 	top:75%;
 }
-#stop, .stop {
+#videoStop, .videoStop {
 	position:absolute;
 	left:50px;
 	top:30px;
 }
-#video-contact, .video-contact {
+#videoContact, .videoContact {
 	position:absolute;
 	right:95px;
 	top:30px;
@@ -299,7 +299,7 @@ body {
 }
 
 .en-icon {
-	background-image: url(../images/flag-us.png);
+	background-image: url(../intl/round-icons/flag-us.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	height: 80px;
@@ -310,7 +310,7 @@ body {
 }
 
 .es-icon {
-	background-image: url(../images/flag-es.png);
+	background-image: url(../intl/round-icons/flag-es.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	height: 80px;
@@ -319,6 +319,40 @@ body {
 	vertical-align: middle;
 	line-height: 80px;
 }
+
+.ru-icon {
+	background-image: url(../intl/round-icons/flag-ru.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+
+.it-icon {
+	background-image: url(../intl/round-icons/flag-it.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+
+.cn-icon {
+	background-image: url(../intl/round-icons/flag-cn.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 80px;
+	width: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 80px;
+}
+
 
 a.languageSelector {
 	background-image: none;
@@ -330,9 +364,30 @@ a.en-locale {
 	height: 80px;
 	width: 80px;
 	top: 40px;
-	right: 120px;
+	right: 360px;
 }
 a.es-locale {
+	position: absolute;
+	height: 80px;
+	width: 80px;
+	top: 40px;
+	right: 280px;
+}
+a.ru-locale {
+	position: absolute;
+	height: 80px;
+	width: 80px;
+	top: 40px;
+	right: 200px;
+}
+a.it-locale {
+	position: absolute;
+	height: 80px;
+	width: 80px;
+	top: 40px;
+	right: 120px;
+}
+a.cn-locale {
 	position: absolute;
 	height: 80px;
 	width: 80px;
@@ -429,10 +484,6 @@ label {
 	top:75%;
 }
 
-.languageSelector {
-	display:none;
-}
-
 #page2 .play, #page3 .play {
 	top:50%;
 }
@@ -447,7 +498,13 @@ label {
 	color: #F00;
 }
 
-#page1 .prev, #page4 .next, #page5 .prev, #page5 .next {
+#page4 .play, #page5 .play, 
+#page1 .contact, #page4 .contact, #page5 .contact, 
+#page1 .save, #page2 .save, #page3 .save, #page5 .save, 
+#page1 .replay, #page2 .replay, #page3 .replay, #page4 .replay, #page5 .replay, 
+#page1 .home, #page2 .home, #page3 .home, #page4 .home, 
+#page1 .prev, #page5 .prev, 
+#page4 .next, #page5 .next {
 	display: none;
 }
 
@@ -481,4 +538,10 @@ label.error {
 }
 #surveyForm label {
 	text-align:center;
+}
+
+.survey-form-template,
+.video-page-template,
+.menu-page-template {
+	display: none;
 }
