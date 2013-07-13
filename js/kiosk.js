@@ -925,16 +925,18 @@ function createMenuPage(lang, pageId) {
 	
 	// Обработка поля due_date если нет встроенной поддержки для <input type="date">
 	debugWrite("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","start");
+	page.find("input[name*='due_date'][type='text']").data("lang",lang);
 	page.find("input[name*='due_date'][type='text']").focus(function(event) { 
+		var lang = jQuery(this).data("lang");
 		jQuery(this).datepicker( 
 			"dialog", 
 			jQuery("."+currentLanguage+" input[name*='due_date']").val() , 
 			function (date, inst) {
 				jQuery("input[name*='due_date']").val(date);
 			},
-			{
+			jQuery.extend({
 				showButtonPanel: true
-			}
+			}, jQuery.datepicker.regional[ lang ] )
 		);
 	});
 	debugWrite("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","end");
