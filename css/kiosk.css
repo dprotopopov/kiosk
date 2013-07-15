@@ -4,6 +4,7 @@ body {
 	padding: 0px;
 	text-align:center;
 	min-height:100%;
+	font-family: Arial, Helvetica, sans-serif;
 }
 body {
 	-webkit-background-size: 100% 100%;
@@ -298,101 +299,16 @@ body {
 	line-height: 80px;
 }
 
-.en-icon {
-	background-image: url(../intl/round-icons/flag-us.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 80px;
-	width: 80px;
-	display: inline-block;
-	vertical-align: middle;
-	line-height: 80px;
-}
-
-.es-icon {
-	background-image: url(../intl/round-icons/flag-es.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 80px;
-	width: 80px;
-	display: inline-block;
-	vertical-align: middle;
-	line-height: 80px;
-}
-
-.ru-icon {
-	background-image: url(../intl/round-icons/flag-ru.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 80px;
-	width: 80px;
-	display: inline-block;
-	vertical-align: middle;
-	line-height: 80px;
-}
-
-.it-icon {
-	background-image: url(../intl/round-icons/flag-it.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 80px;
-	width: 80px;
-	display: inline-block;
-	vertical-align: middle;
-	line-height: 80px;
-}
-
-.cn-icon {
-	background-image: url(../intl/round-icons/flag-cn.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 80px;
-	width: 80px;
-	display: inline-block;
-	vertical-align: middle;
-	line-height: 80px;
-}
-
-
-a.languageSelector {
-	background-image: none;
-	background-color: none;
-}
-
-a.en-locale {
+.languageSelector {
 	position: absolute;
-	height: 80px;
-	width: 80px;
-	top: 40px;
-	right: 360px;
-}
-a.es-locale {
-	position: absolute;
-	height: 80px;
-	width: 80px;
-	top: 40px;
-	right: 280px;
-}
-a.ru-locale {
-	position: absolute;
-	height: 80px;
-	width: 80px;
-	top: 40px;
-	right: 200px;
-}
-a.it-locale {
-	position: absolute;
-	height: 80px;
-	width: 80px;
-	top: 40px;
-	right: 120px;
-}
-a.cn-locale {
-	position: absolute;
-	height: 80px;
-	width: 80px;
+	display: block;
+	vertical-align: middle;
 	top: 40px;
 	right: 40px;
+	text-align: justify;
+}
+.languageSelector select {
+	width: 180px;
 }
 
 .replay {
@@ -544,4 +460,8 @@ label.error {
 .video-page-template,
 .menu-page-template {
 	display: none;
+}
+
+.ddTitleText {
+	text-align:center;
 }

@@ -866,6 +866,7 @@ function createVideoPage(lang, pageId) {
 		hideCurrentVideoContact();
 		hideCurrentVideo();
 		showCurrentMenu();
+		return false;
 	});
 
 	page.find(".videoContact").click(function(event) {
@@ -876,10 +877,13 @@ function createVideoPage(lang, pageId) {
 		hideCurrentVideo();
 		currentIndex = 3;
 		showCurrentMenu();
+		return false;
 	});
 
 	debugWrite("createVideoPage","end");
 }
+
+var oDropdowns = Array();
 
 function createMenuPage(lang, pageId) {
 	debugWrite("createMenuPage","start");
@@ -899,16 +903,33 @@ function createMenuPage(lang, pageId) {
 	
 	for(var btn in menuButtons[lang]) {
 		var lnk = "<a class='"+btn+" "+menuButtons[lang][btn].buttonClass+"' href='#'><div class='"+btn+"-icon'></div>"+menuButtons[lang][btn].text+"</a>";
-		page.append(lnk)
+		page.append(lnk);
 		debugWrite("lnk",lnk);
 	}
 
-	for(var languageSelector in languages) {
-		var current = (languageSelector==lang)?"current":"";
-		var lnk = "<a class='languageSelector "+languageSelector+"-locale "+current+"' href='#'><div class='"+languageSelector+"-icon'></div></a>";
-		page.append(lnk)
-		debugWrite("lnk",lnk);
+	var languageSelector = "<div class='languageSelector'><select id='languageSelector-"+lang+"-"+pageId+"' name='languageSelector' style='width:180px'>";
+	for(var lng in languages) {
+		var selected = (lng==lang)?"selected":"";
+		var option = "<option "+selected+" value='"+lng+"' data-image='intl/flag-"+lng+".png'>"+languages[lng]+"</option>";
+		languageSelector += option;
 	}
+	languageSelector += "</select></div>";
+	page.append(languageSelector);
+
+	var oDropdown = jQuery("#languageSelector-"+lang+"-"+pageId+"",page).msDropdown().data("dd");
+	oDropdown.visibleRows(languages.length);
+	oDropdowns.push(oDropdown);
+	oDropdown.on("change", function(event) {
+		debugWrite("this.value",this.value);
+		hideCurrentMenu();
+		currentLanguage = this.value;
+		for(var i=0; i<oDropdowns.length; i++) {
+			oDropdowns[i].setIndexByValue(currentLanguage);
+			oDropdowns[i].close();
+		}
+		createPagesIfNotExists(currentLanguage);
+		showCurrentMenu();
+	});
 	
 	// Проверка встроенной поддержки для <input type="date">
 	// Если нет встроенной поддержки для <input type="date">,
@@ -1051,6 +1072,7 @@ function createMenuPage(lang, pageId) {
 			}
 			debugWrite("Отправка формы обратной связи","end");
 		}
+		return false;
 	});
 			
 	page.find(".next").click(function(event) {
@@ -1059,6 +1081,7 @@ function createMenuPage(lang, pageId) {
 		currentIndex = nextIndex(currentIndex);
         clearForm();
 		showCurrentMenu();
+		return false;
 	});
 
 	page.find(".prev").click(function(event) {
@@ -1067,6 +1090,7 @@ function createMenuPage(lang, pageId) {
 		currentIndex = prevIndex(currentIndex);
         clearForm();
 		showCurrentMenu();
+		return false;
 	});
 
 	page.find(".play").click(function(event) {
@@ -1077,6 +1101,7 @@ function createMenuPage(lang, pageId) {
 		showCurrentVideoContact();
 		showCurrentVideo();
 		playCurrentPlayer();
+		return false;
 	});
 
 	page.find(".replay").click(function(event) {
@@ -1088,6 +1113,7 @@ function createMenuPage(lang, pageId) {
 		showCurrentVideoContact();
 		showCurrentVideo();
 		playCurrentPlayer();
+		return false;
 	});
 
 	page.find(".home").click(function(event) {
@@ -1095,6 +1121,7 @@ function createMenuPage(lang, pageId) {
 		hideCurrentMenu();
 		currentIndex = 0;
 		showCurrentMenu();
+		return false;
 	});
 
 	page.find(".contact").click(function(event) {
@@ -1102,18 +1129,18 @@ function createMenuPage(lang, pageId) {
 		hideCurrentMenu();
 		currentIndex = 3;
 		showCurrentMenu();
+		return false;
 	});
 	
-	for(var languageSelector in languages) {
-		page.find("."+languageSelector+"-locale").data("lang",languageSelector);
-		page.find("."+languageSelector+"-locale").click(function(event) {
-			if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-			hideCurrentMenu();
-			currentLanguage = jQuery(this).data("lang");
-			createPagesIfNotExists(currentLanguage);
-			showCurrentMenu();
-		});
-	}
+	page.find("select#languageSelector").change(function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideCurrentMenu();
+		currentLanguage = jQuery(this).val();
+		jQuery("select#languageSelector").val(currentLanguage);
+		createPagesIfNotExists(currentLanguage);
+		showCurrentMenu();
+		return false;
+	});
 
 	debugWrite("createMenuPage","end");
 }
