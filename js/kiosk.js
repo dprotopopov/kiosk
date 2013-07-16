@@ -921,7 +921,7 @@ function createMenuPage(lang, pageId) {
 	languageSelector += "</select></div>";
 	page.append(languageSelector);
 
-	var oDropdown = jQuery("#languageSelector-"+lang+"-"+pageId+"",page).msDropdown().data("dd");
+	var oDropdown = jQuery("#languageSelector-"+lang+"-"+pageId+"",page).msDropdown({rowHeight:32}).data("dd");
 	oDropdown.visibleRows(languages.length);
 	oDropdowns.push(oDropdown);
 	oDropdown.on("change", function(event) {
