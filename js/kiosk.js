@@ -406,7 +406,7 @@ var languages = {
 	ru: "Русский",
 	it: "Italiano",
 	cn: "中國的"
-}
+};
 
 function currentCallbackForm() { return jQuery("#callbackForm",currentMenuPage()); }
 function currentMenuPage() { return jQuery(".menu-page." + currentLanguage).get(currentIndex); }
@@ -617,44 +617,44 @@ jQuery.tubeplayer.defaults.afterReady = function($player){
 // Процедура кросс-доменной отправки содержимого формы ввода
 // Параметр - отправляемая форма ввода
 function crossDomainSubmit(item) {
-  // Add the iframe with a unique name
-  var uniqueString = "crossDomainForm-"+jQuery("iframe").length;
-  var iframe = document.createElement("iframe");
-  document.body.appendChild(iframe);
-  iframe.style.display = "none";
-  try {
-  	iframe.contentWindow.name = uniqueString;
-  } catch(e) {
-  	debugWrite('iframe.contentWindow.name error',e);
-  }
-  debugWrite('iframe.contentWindow.name',iframe.contentWindow.name);
-
-  // construct a form with hidden inputs, targeting the iframe
-  var form = document.createElement("form");
-  form.target = iframe.contentWindow.name;
-  debugWrite('form.target',form.target);
-  debugWrite('item.attr("action")',item.attr("action"));
-  form.action = item.attr("action");
-  debugWrite('form.action',form.action);
-  debugWrite('item.attr("method")',item.attr("method"));
-  form.method = item.attr("method");
-  debugWrite('form.method',form.method);
-
-  // repeat for each parameter
-  item.find("input").each(function(index, element) {
-	  var input = document.createElement("input");
-	  input.type = "hidden";
-  	  debugWrite("element.name",element.name);
-	  input.name = element.name;
-  	  debugWrite("input.name",input.name);
-  	  debugWrite("element.value",element.value);
-	  input.value = element.value;
-  	  debugWrite("input.value",input.value);
-	  form.appendChild(input);
-  });
-
-  document.body.appendChild(form);
-  form.submit();
+	// Add the iframe with a unique name
+	var uniqueString = "crossDomainForm-"+jQuery("iframe").length;
+	var iframe = document.createElement("iframe");
+	document.body.appendChild(iframe);
+	iframe.style.display = "none";
+	try {
+	  iframe.contentWindow.name = uniqueString;
+	} catch(e) {
+	  debugWrite('iframe.contentWindow.name error',e);
+	}
+	debugWrite('iframe.contentWindow.name',iframe.contentWindow.name);
+  
+	// construct a form with hidden inputs, targeting the iframe
+	var form = document.createElement("form");
+	form.target = iframe.contentWindow.name;
+	debugWrite('form.target',form.target);
+	debugWrite('item.attr("action")',item.attr("action"));
+	form.action = item.attr("action");
+	debugWrite('form.action',form.action);
+	debugWrite('item.attr("method")',item.attr("method"));
+	form.method = item.attr("method");
+	debugWrite('form.method',form.method);
+  
+	// repeat for each parameter
+	item.find("input").each(function(index, element) {
+		var input = document.createElement("input");
+		input.type = "hidden";
+		debugWrite("element.name",element.name);
+		input.name = element.name;
+		debugWrite("input.name",input.name);
+		debugWrite("element.value",element.value);
+		input.value = element.value;
+		debugWrite("input.value",input.value);
+		form.appendChild(input);
+	});
+  
+	document.body.appendChild(form);
+	form.submit();
 }
 
 function urldecode (str) {
@@ -990,7 +990,7 @@ function createMenuPage(lang, pageId) {
 	page.find(".save").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		closeDropdowns();
-		var isValid = false
+		var isValid = false;
 		debugWrite("Валидация формы обратной связи","start");
 		try {
 			var form = currentCallbackForm();
