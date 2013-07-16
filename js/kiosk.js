@@ -884,6 +884,11 @@ function createVideoPage(lang, pageId) {
 }
 
 var oDropdowns = Array();
+function closeDropdowns() {
+	for(var i=0; i<oDropdowns.length; i++) {
+		oDropdowns[i].close();
+	}
+}
 
 function createMenuPage(lang, pageId) {
 	debugWrite("createMenuPage","start");
@@ -925,8 +930,8 @@ function createMenuPage(lang, pageId) {
 		currentLanguage = this.value;
 		for(var i=0; i<oDropdowns.length; i++) {
 			oDropdowns[i].setIndexByValue(currentLanguage);
-			oDropdowns[i].close();
 		}
+		closeDropdowns();
 		createPagesIfNotExists(currentLanguage);
 		showCurrentMenu();
 	});
@@ -984,6 +989,7 @@ function createMenuPage(lang, pageId) {
 	
 	page.find(".save").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		closeDropdowns();
 		var isValid = false
 		debugWrite("Валидация формы обратной связи","start");
 		try {
@@ -1077,6 +1083,7 @@ function createMenuPage(lang, pageId) {
 			
 	page.find(".next").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		closeDropdowns();
 		hideCurrentMenu();
 		currentIndex = nextIndex(currentIndex);
         clearForm();
@@ -1086,6 +1093,7 @@ function createMenuPage(lang, pageId) {
 
 	page.find(".prev").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		closeDropdowns();
 		hideCurrentMenu();
 		currentIndex = prevIndex(currentIndex);
         clearForm();
@@ -1095,6 +1103,7 @@ function createMenuPage(lang, pageId) {
 
 	page.find(".play").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		closeDropdowns();
 //		showBuffering();
 		hideCurrentMenu();
 		showCurrentVideoStop();
@@ -1106,6 +1115,7 @@ function createMenuPage(lang, pageId) {
 
 	page.find(".replay").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		closeDropdowns();
 		hideCurrentMenu();
 //		showBuffering();
 		currentIndex = prevIndex(currentIndex);
@@ -1118,6 +1128,7 @@ function createMenuPage(lang, pageId) {
 
 	page.find(".home").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		closeDropdowns();
 		hideCurrentMenu();
 		currentIndex = 0;
 		showCurrentMenu();
@@ -1126,6 +1137,7 @@ function createMenuPage(lang, pageId) {
 
 	page.find(".contact").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		closeDropdowns();
 		hideCurrentMenu();
 		currentIndex = 3;
 		showCurrentMenu();
@@ -1134,6 +1146,7 @@ function createMenuPage(lang, pageId) {
 	
 	page.find("select#languageSelector").change(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		closeDropdowns();
 		hideCurrentMenu();
 		currentLanguage = jQuery(this).val();
 		jQuery("select#languageSelector").val(currentLanguage);

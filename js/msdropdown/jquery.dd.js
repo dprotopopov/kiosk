@@ -468,15 +468,15 @@ function dd(element, settings) {
 			var margin = parseInt(firstLI.css("padding-bottom")) + parseInt(firstLI.css("padding-top"));
 			if(settings.rowHeight===0) {
 				$("#" + childid).css({visibility:'hidden',display:'block'}); //hack for first child
-				settings.rowHeight = Math.ceil(firstLI.outerHeight(true));
+				settings.rowHeight = Math.ceil(firstLI.height());
 				$("#" + childid).css({visibility:'visible'});
 				if(!isList || settings.enableCheckbox===true) {
 					$("#" + childid).css({display:'none'});
 				};
 			};
-			iHeight = ((settings.rowHeight + 0) * Math.min(settings.visibleRows,totalOptions)) + 0;
+			iHeight = ((settings.rowHeight + margin) * Math.min(settings.visibleRows,totalOptions)) + 5;
 		} else if (isList) {
-			iHeight = $("#" + element).outerHeight(true); //get height from original element
+			iHeight = $("#" + element).height(); //get height from original element
 		};		
 		return iHeight;
 	};
