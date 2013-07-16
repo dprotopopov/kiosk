@@ -303,8 +303,8 @@ body {
 	position: absolute;
 	display: block;
 	vertical-align: middle;
-	top: 40px;
-	right: 40px;
+	top: 56px;
+	right: 80px;
 	text-align: justify;
 }
 .languageSelector select {
