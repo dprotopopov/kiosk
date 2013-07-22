@@ -127,6 +127,29 @@ var videos = {
      			{ src:"video/Cryo-Cell-Replication_Master-1280.ogv", type:'video/ogg; codecs="theora, vorbis"' }
 			]
 		}
+	},
+	tw: {
+		video1: { 
+			videoId: "uuqGzMd808c",
+			sources: [ 
+				{ src:"video/CC_an_13.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/CC_an_13.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video2: { 
+			videoId: "vYdjHhDGAUI",
+			sources: [ 
+				{ src:"video/One-Life-Saved-FINAL.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/One-Life-Saved-FINAL.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video3: { 
+			videoId: "BJUN4LrXi88#!",
+			sources: [ 
+				{ src:"video/Cryo-Cell-Replication_Master-1280.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/Cryo-Cell-Replication_Master-1280.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		}
 	}
 };
 
@@ -143,7 +166,7 @@ var videoButtons = {
 	},
 	es: {
 		videoStop: { buttonClass:"button-small-mini", text:"Hecho" },
-		videoContact: { buttonClass:"button-mini", text:"¿Tiene Preguntas?" }
+		videoContact: { buttonClass:"button-mini", text:"¿Tiene preguntas?" }
 	},
 	ru: {
 		videoStop: { buttonClass:"button-small-mini", text:"Стоп" },
@@ -155,7 +178,11 @@ var videoButtons = {
 	},
 	cn: {
 		videoStop: { buttonClass:"button-small-mini", text:"完成" },
-		videoContact: { buttonClass:"button-mini", text:"有問題嗎？" }
+		videoContact: { buttonClass:"button-mini", text:"有疑问吗？" }
+	},
+	tw: {
+		videoStop: { buttonClass:"button-small-mini", text:"完成" },
+		videoContact: { buttonClass:"button-mini", text:"有疑問嗎？" }
 	}
 };
 
@@ -181,7 +208,7 @@ var menuButtons = {
 		prev: { buttonClass:"button-small", text:"" },
 		next: { buttonClass:"button-small", text:"" },
 		home: { buttonClass:"button", text:"Página principal" },
-		contact: { buttonClass:"button", text:"¿Tiene Preguntas?" },
+		contact: { buttonClass:"button", text:"¿Tiene preguntas?" },
 		save: { buttonClass:"button", text:"Enviar" }
 	},
 	ru: {
@@ -208,7 +235,16 @@ var menuButtons = {
 		prev: { buttonClass:"button-small", text:"" },
 		next: { buttonClass:"button-small", text:"" },
 		home: { buttonClass:"button", text:"首頁" },
-		contact: { buttonClass:"button", text:"有問題嗎？" },
+		contact: { buttonClass:"button", text:"有疑问吗？ " },
+		save: { buttonClass:"button", text:"提交" }
+	},
+	tw: {
+		replay: { buttonClass:"button", text:"重播" },
+		play: { buttonClass:"button", text:"" },
+		prev: { buttonClass:"button-small", text:"" },
+		next: { buttonClass:"button-small", text:"" },
+		home: { buttonClass:"button", text:"首頁" },
+		contact: { buttonClass:"button", text:"有疑問嗎？" },
 		save: { buttonClass:"button", text:"提交" }
 	}
 };
@@ -240,20 +276,20 @@ var pages = {
 	},
 	es: {
 		page1: { 
-			title: "¿Por qué almacenar la sangre del cordón umbilical de su bebé?",
-			subtitle: "Watch an animated video on cord blood stem cells."
+			title: "¿Por qué debe almacenar la sangre del cordón umbilical de su bebé?",
+			subtitle: "Vea un breve vídeo animado sobre las células madre del cordón umbilical."
 		},
 		page2: {
-			title: "Como la sangre del cordón umbilical salva vidas?",
-			subtitle: "Watch a 3 minute video on one family’s story."
+			title: "¿Cómo puede la sangre del cordón umbilical salvar vidas?",
+			subtitle: "Vea el siguiente video de 3 minutos sobre la historia de una familia."
 		},
 		page3: { 
-			title: "¿Por qué elegir <span nowrap>Cryo-Cell</span>?",
-			subtitle: "Watch a video on the world’s leading cord blood company."
+			title: "¿Por qué elegir Cryo-Cell?",
+			subtitle: "Vea un breve video sobre la compañía líder en la preservación de la sangre del cordón umbilical."
 		},
 		page4: { 
 			title: "Gracias",
-			subtitle: "We hope you found these videos informative.<br />To learn more about our services, please fill in the contact form below."
+			subtitle: "Esperamos que haya encontrado estos breves videos muy informativos.<br />Para obtener más información acerca de nuestros servicios, por favor complete el siguiente formulario de contacto."
 		},
 		page5: { 
 			title: "Gracias",
@@ -306,20 +342,42 @@ var pages = {
 	},
 	cn: {
 		page1: { 
-			title: "Why should you store<br />your baby’s cord blood?",
-			subtitle: "Watch an animated video on cord blood stem cells."
+			title: "为什么您应该储存宝宝的脐带血？",
+			subtitle: "请观赏一个有关脐带血干细胞的动画短视频。"
 		},
 		page2: {
-			title: "How can cord blood save lives?",
-			subtitle: "Watch a 3 minute video on one family’s story."
+			title: "脐带血如何能挽救生命",
+			subtitle: "请观赏一个3分钟的视频：一个家庭的故事。"
 		},
 		page3: { 
-			title: "為什麼選擇 <span nowrap>Cryo-Cell</span>?",
-			subtitle: "Watch a video on the world’s leading cord blood company."
+			title: "为何选择Cryo-Cell?",
+			subtitle: "请观赏一个短视频，为您介绍领先世界的脐带血公司。"
+		},
+		page4: { 
+			title: "谢谢",
+			subtitle: "希望这些短视频为您提供了翔实的资讯。<br />若想更了解我们的服务，请填写下面的联系表格。"
+		},
+		page5: { 
+			title: "谢谢",
+			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+		}
+	},
+	tw: {
+		page1: { 
+			title: "為什麼您應該儲存寶寶的臍帶血？",
+			subtitle: "請觀賞一個有關臍帶血幹細胞的卡通短視頻。"
+		},
+		page2: {
+			title: "臍帶血如何能挽救生命？",
+			subtitle: "請觀賞一個3分鐘的視頻：一個家庭的故事。"
+		},
+		page3: { 
+			title: "為何選擇Cryo-Cell？",
+			subtitle: "請觀賞一個短視頻，為您介紹領先世界的臍帶血公司"
 		},
 		page4: { 
 			title: "謝謝",
-			subtitle: "We hope you found these videos informative.<br />To learn more about our services, please fill in the contact form below."
+			subtitle: "希望這些短視頻為您提供了翔實的資訊。<br />若想更了解我們的服務，請填寫下面的聯繫表格。"
 		},
 		page5: { 
 			title: "謝謝",
@@ -342,9 +400,9 @@ var formLabels = {
 	es: {
 		first_name: "Nombre",
 		last_name: "Apellido",
-		due_date: "Fecha esperada",
-		phone_number: "Número de teléfono",
-		email: "Email",
+		due_date: "Fecha estimada de parto",
+		phone_number: "Teléfono",
+		email: "Correo electrónico",
 		doctor: "Médico"
 	},
 	ru: {
@@ -364,9 +422,17 @@ var formLabels = {
 		doctor: "Doctor"
 	},
 	cn: {
-		first_name: "名字",
+		first_name: "名",
 		last_name: "姓",
-		due_date: "預期日期",
+		due_date: "预产期",
+		phone_number: "电话号码",
+		email: "电子邮件",
+		doctor: "醫生"
+	},
+	tw: {
+		first_name: "名",
+		last_name: "姓",
+		due_date: "預產期",
 		phone_number: "電話號碼",
 		email: "電子郵件",
 		doctor: "醫生"
@@ -382,8 +448,8 @@ var surveys = {
 		label: "Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:"
 	},
 	es: {
-		title: "<strong>Welcome to the Cord Blood<br />Education Program</strong>",
-		label: "Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:"
+		title: "<strong>Bienvenido al programa de Educación de la Sangre del Cordón Umbilical</strong>",
+		label: "Por favor de ingresar el nombre del  consultorio o de su médico obstetra / ginecólogo:"
 	},
 	ru: {
 		title: "<strong>Добро пожаловать в программу обучения<br />по сохранению пуповинной крови</strong>",
@@ -393,9 +459,13 @@ var surveys = {
 		title: "<strong>Welcome to the Cord Blood<br />Education Program</strong>",
 		label: "Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:"
 	},
-	ch: {
-		title: "<strong>Welcome to the Cord Blood<br />Education Program</strong>",
-		label: "Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:"
+	cn: {
+		title: "<strong>欢迎观赏这个脐带血教育节目</strong>",
+		label: "请在下面输入您的妇产科医生或诊所的名称:"
+	},
+	tw: {
+		title: "<strong>歡迎觀賞這個臍帶血教育節目</strong>",
+		label: "請在下面輸入您的婦產科醫生或診所的名稱:"
 	}
 };
 
@@ -404,8 +474,8 @@ var languages = {
 	en: "English",
 	es: "Español",
 	ru: "Русский",
-	it: "Italiano",
-	cn: "中國的"
+	cn: "简体中文",
+	tw: "繁體中文"
 };
 
 function currentCallbackForm() { return jQuery("#callbackForm",currentMenuPage()); }
