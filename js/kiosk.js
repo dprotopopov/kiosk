@@ -165,7 +165,7 @@ var videoButtons = {
 		videoContact: { buttonClass:"button-mini", text:"Have Questions ?" }
 	},
 	es: {
-		videoStop: { buttonClass:"button-small-mini", text:"Hecho" },
+		videoStop: { buttonClass:"button-small-mini", text:"Finalizado" },
 		videoContact: { buttonClass:"button-mini", text:"¿Tiene preguntas?" }
 	},
 	ru: {
@@ -267,11 +267,11 @@ var pages = {
 		},
 		page4: { 
 			title: "Thank you",
-			subtitle: "We hope you found these videos informative.<br />To learn more about our services, please fill in the contact form below."
+			subtitle: "We hope you found these brief videos informative.<br />To learn more about our services, please fill in the contact form below."
 		},
 		page5: { 
 			title: "Thank you",
-			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+			subtitle: "Your request has been sent.<br />One of our client services advisors will contact you shortly."
 		}
 	},
 	es: {
@@ -280,7 +280,7 @@ var pages = {
 			subtitle: "Vea un breve vídeo animado sobre las células madre del cordón umbilical."
 		},
 		page2: {
-			title: "¿Cómo puede la sangre del cordón umbilical salvar vidas?",
+			title: "¿Cómo la sangre del cordón umbilical puede salvar vidas?",
 			subtitle: "Vea el siguiente video de 3 minutos sobre la historia de una familia."
 		},
 		page3: { 
@@ -293,7 +293,7 @@ var pages = {
 		},
 		page5: { 
 			title: "Gracias",
-			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+			subtitle: "Su solicitud ha sido enviada.<br />Muy pronto uno de nuestros asesores de servicio al cliente se pondrá en contacto con usted"
 		}
 	},
 	ru: {
@@ -359,7 +359,7 @@ var pages = {
 		},
 		page5: { 
 			title: "谢谢",
-			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+			subtitle: "您的要求已发送<br />我们的客户服务代表将很快地与您联系."
 		}
 	},
 	tw: {
@@ -381,7 +381,7 @@ var pages = {
 		},
 		page5: { 
 			title: "謝謝",
-			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+			subtitle: "您的要求已發送<br />我們的客戶服務代表將很快地與您聯繫."
 		}
 	}
 };
@@ -449,7 +449,7 @@ var surveys = {
 	},
 	es: {
 		title: "<strong>Bienvenido al programa de Educación de la Sangre del Cordón Umbilical</strong>",
-		label: "Por favor de ingresar el nombre del  consultorio o de su médico obstetra / ginecólogo:"
+		label: "Por favor ingresar el nombre del consultorio o de su médico obstetra / ginecólogo:"
 	},
 	ru: {
 		title: "<strong>Добро пожаловать в программу обучения<br />по сохранению пуповинной крови</strong>",
