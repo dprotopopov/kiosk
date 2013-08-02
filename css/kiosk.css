@@ -247,6 +247,24 @@ body {
 	right:95px;
 	top:30px;
 }
+#videoTip, .videoTip {
+	position: absolute;
+	right: 95px;
+	bottom: 30px;
+	font-size: 16px;
+	color: #FFF;
+	text-decoration: none;
+}
+#videoSorry, .videoSorry {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 30px;
+	font-size: 16px;
+	color: #FFF;
+	text-decoration: none;
+	text-align: center;
+}
 .play-icon {
 	background-image: url(../images/go-next-view.png);
 	background-repeat: no-repeat;
@@ -422,6 +440,12 @@ label {
 #page1 .prev, #page5 .prev, 
 #page4 .next, #page5 .next {
 	display: none;
+}
+
+#video1 .videoSorry,
+#video2 .videoTip,
+#video3 .videoTip {
+	display: none !important;
 }
 
 #datepicker {

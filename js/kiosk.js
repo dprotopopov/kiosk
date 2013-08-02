@@ -1,11 +1,21 @@
-jQuery.noConflict();
+///////////////////////////////////////////////////////////////////////////////////////
+//
+// Обучающее видео компании Cryo-Cell International
+// http://cryo-cell.com
+//
+// Разработчик RBA DESIGN INTERNATIONAL LLC
+// http://rbadesign.us
+//
+// Версия для iPad и Web
+//
+////////////////////////////////////////////////////////////////////////////////////////
 
 // Используется для YouTube Player API
 //var YtPlayers = new Array();
 
 var currentIndex = 0;
 var currentLanguage = "en";
-
+var showSurvey = false;
 var url = false;
 
 // Определение воспроизводимого видео
@@ -162,27 +172,39 @@ var videos = {
 var videoButtons = {
 	en: {
 		videoStop: { buttonClass:"button-small-mini", text:"Done" },
-		videoContact: { buttonClass:"button-mini", text:"Have Questions ?" }
+		videoContact: { buttonClass:"button-mini", text:"Have Questions ?" },
+		videoTip: { buttonClass:"", text:"Here you can enable subtitles in your own language" },
+		videoSorry: { buttonClass:"", text:"We apologize, but this video shows only in English" }
 	},
 	es: {
 		videoStop: { buttonClass:"button-small-mini", text:"Finalizado" },
-		videoContact: { buttonClass:"button-mini", text:"¿Tiene preguntas?" }
+		videoContact: { buttonClass:"button-mini", text:"¿Tiene preguntas?" },
+		videoTip: { buttonClass:"", text:"Aquí puede activar los subtítulos en su propio idioma" },
+		videoSorry: { buttonClass:"", text:"Lo sentimos, pero este video muestra sólo en Inglés" }
 	},
 	ru: {
 		videoStop: { buttonClass:"button-small-mini", text:"Стоп" },
-		videoContact: { buttonClass:"button-mini", text:"У Вас вопросы ?" }
+		videoContact: { buttonClass:"button-mini", text:"У Вас вопросы ?" },
+		videoTip: { buttonClass:"", text:"Здесь вы можете включить субтитры на вашем родном языке" },
+		videoSorry: { buttonClass:"", text:"Мы извиняемся, но это видео демонстрируется только на английском языке" }
 	},
 	it: {
 		videoStop: { buttonClass:"button-small-mini", text:"Fatto" },
-		videoContact: { buttonClass:"button-mini", text:"Sono domande ?" }
+		videoContact: { buttonClass:"button-mini", text:"Sono domande ?" },
+		videoTip: { buttonClass:"", text:"Qui è possibile attivare i sottotitoli nella tua lingua" },
+		videoSorry: { buttonClass:"", text:"Ci scusiamo, ma il video mostra solo in inglese" }
 	},
 	cn: {
 		videoStop: { buttonClass:"button-small-mini", text:"完成" },
-		videoContact: { buttonClass:"button-mini", text:"有疑问吗？" }
+		videoContact: { buttonClass:"button-mini", text:"有疑问吗？" },
+		videoTip: { buttonClass:"", text:"在这里，你可以使自己的语言的字幕" },
+		videoSorry: { buttonClass:"", text:"我们深表歉意，但录像显示，仅在英语" }
 	},
 	tw: {
 		videoStop: { buttonClass:"button-small-mini", text:"完成" },
-		videoContact: { buttonClass:"button-mini", text:"有疑問嗎？" }
+		videoContact: { buttonClass:"button-mini", text:"有疑問嗎？" },
+		videoTip: { buttonClass:"", text:"在這裡，你可以使自己的語言的字幕" },
+		videoSorry: { buttonClass:"", text:"我們深表歉意，但錄像顯示，僅在英語" }
 	}
 };
 
@@ -478,82 +500,107 @@ var languages = {
 	tw: "繁體中文"
 };
 
-function currentCallbackForm() { return jQuery("#callbackForm",currentMenuPage()); }
-function currentMenuPage() { return jQuery(".menu-page." + currentLanguage).get(currentIndex); }
-function currentVideoPage() { return jQuery(".video-page." + currentLanguage).get(currentIndex); }
-function currentVideoStop() { return jQuery(currentVideoPage()).find(".videoStop").get(0); }
-function currentVideoContact() { return jQuery(currentVideoPage()).find(".videoContact").get(0); }
-function currentPlayer() { return jQuery(currentVideoPage()).find("video").get(0); }
-function currentYtPlayer() { return YtPlayers[jQuery(".ytplayer").index(jQuery(currentVideoPage()).find(".ytplayer").get(0))]; }
-function currentTubePlayer() { return jQuery(currentVideoPage()).find(".tubeplayer").get(0); }
+function currentCallbackForm() { return $("#callbackForm",currentMenuPage()); }
+function currentMenuPage() { return $(".menu-page." + currentLanguage).get(currentIndex); }
+function currentVideoPage() { return $(".video-page." + currentLanguage).get(currentIndex); }
+function currentVideoStop() { return $(".videoStop",currentVideoPage()); }
+function currentVideoContact() { return $(".videoContact",currentVideoPage()); }
+function currentPlayer() { return $("video",currentVideoPage()); }
+function currentYtPlayer() { return YtPlayers[$(".ytplayer").index($(currentVideoPage()).find(".ytplayer").get(0))]; }
+function currentTubePlayer() { return $(".tubeplayer",currentVideoPage()); }
 function nextIndex(index) { index++ ; if(index >= 5) index = 4; return index; }
 function prevIndex(index) { index-- ; if(index < 0) index = 0; return index; }
-function showCurrentMenu() { jQuery(currentMenuPage()).fadeIn("slow"); }
-function hideCurrentMenu() { jQuery(currentMenuPage()).fadeOut("slow"); }
-function showCurrentVideo() { jQuery(currentVideoPage()).show(); }
-function hideCurrentVideo() { jQuery(currentVideoPage()).hide(); }
-function showCurrentVideoStop() { jQuery(currentVideoStop()).fadeIn(); }
-function hideCurrentVideoStop() { jQuery(currentVideoStop()).fadeOut(); }
-function showCurrentVideoContact() { jQuery(currentVideoContact()).fadeIn(); }
-function hideCurrentVideoContact() { jQuery(currentVideoContact()).fadeOut(); }
-function showBuffering() { jQuery("#buffering").show(); }
-function hideBuffering() { jQuery("#buffering").hide(); }
-function fullScreen() { jQuery("#window").fullScreen(true); }
-function updateHeight() { jQuery("#window").height(jQuery(window).height()); }
+function showCurrentMenu() { $(currentMenuPage()).fadeIn("slow"); }
+function hideCurrentMenu() { $(currentMenuPage()).fadeOut("slow"); }
+function showCurrentVideo() { 
+	var page = $(currentVideoPage());
+	var tip = $(".videoTip",page);
+	var sorry = $(".videoSorry",page);
+	page.show(); 
+	
+	// При просмотре видео в нижней (черной) части экрана нужно добавить кнопку со стрелочкой,
+	// которая будет указывать "здесь вы можете включить субтитры на вашем родном языке" 
+	tip.toggle($(".tubeplayer",page).length>0 || $(".ytplayer",page).length>0);
+	
+	// В связи с тем, что только одно видео в проекте имеет перевод или субтитры, 
+	// то на всех последующих страницах нужно добавить фразу 
+	// "Мы извиняемся, но это видео демонстрируется только на английском языке" 
+	sorry.toggle(page.hasClass("en")==false && ($(".tubeplayer",page).length>0 || $(".ytplayer",page).length>0));
+}
+function hideCurrentVideo() { $(currentVideoPage()).hide(); }
+function showCurrentVideoStop() { $(currentVideoStop()).fadeIn(); }
+function hideCurrentVideoStop() { $(currentVideoStop()).fadeOut(); }
+function showCurrentVideoContact() { $(currentVideoContact()).fadeIn(); }
+function hideCurrentVideoContact() { $(currentVideoContact()).fadeOut(); }
+function showBuffering() { $("#buffering").show(); }
+function hideBuffering() { $("#buffering").hide(); }
+function fullScreen() { $("#window").fullScreen(true); }
+function updateHeight() { $("#window").height($(window).height()); }
 function showSurveyDialog() { 
-	jQuery("#surveyForm." + currentLanguage +"").keypress(function(event) {
-		if (event.keyCode == jQuery.ui.keyCode.ENTER) {
+	showSurvey = true;
+	$("#surveyForm." + currentLanguage +"").keypress(function(event) {
+		if (event.keyCode == $.ui.keyCode.ENTER) {
 			if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 			debugWrite("event.keyCode","ENTER");
-			debugWrite("Ответ",jQuery("." + currentLanguage +" input[name*='answer']").val());
-			jQuery("input[name*='doctor']").val(jQuery("." + currentLanguage +" input[name*='answer']").val()); 
-			jQuery(this).dialog("close");
+			debugWrite("Ответ",$("." + currentLanguage +" input[name*='answer']").val());
+			$("input[name*='doctor']").val($("." + currentLanguage +" input[name*='answer']").val()); 
+			$(this).dialog("close");
+			showSurvey = false;
+			return false;
 		}
 	});
-	jQuery("#surveyForm." + currentLanguage +"").dialog({
+	$("#surveyForm." + currentLanguage +"").dialog({
 		minWidth: 480,
 		buttons: {
 			"Submit": function() {
-				debugWrite("Ответ",jQuery("." + currentLanguage +" input[name*='answer']").val());
-				jQuery("input[name*='doctor']").val(jQuery("." + currentLanguage +" input[name*='answer']").val()); 
-				jQuery(this).dialog("close");
+				debugWrite("Ответ",$("." + currentLanguage +" input[name*='answer']").val());
+				$("input[name*='doctor']").val($("." + currentLanguage +" input[name*='answer']").val()); 
+				$(this).dialog("close");
+				showSurvey = false;
+				return false;
 			}
 		}
 	}); 
 }
-function hideSurveyDialog() { jQuery("#surveyForm").hide(); }
+function hideSurveyDialog() { 
+	if(showSurvey) {
+		$("#surveyForm." + currentLanguage +"").dialog("close");
+	}
+	$("#surveyForm").hide(); 
+}
 
 function hideDoctor() { 
-	jQuery("input[name*='doctor']").removeClass("required"); 
-	jQuery("input[name*='doctor']").hide(); 
-	jQuery("label[for*='doctor']").hide(); 
+	$("input[name*='doctor']").removeClass("required"); 
+	$("input[name*='doctor']").hide(); 
+	$("label[for*='doctor']").hide(); 
 }
 function clearForm() { 
-	jQuery("input[name*='expected_delivery_date']").val("");
-	jQuery("input[name*='due_date']").val("");
-	jQuery("input[name*='phone']").val("");
-	jQuery("input[name*='first_name']").val("");
-	jQuery("input[name*='last_name']").val("");
-	jQuery("input[name*='mail']").val("");
-//	jQuery("input[name*='doctor']").val("");
-	jQuery("input").removeClass("error");
-	jQuery(".error").remove();
-	jQuery(".ErrorLabel").remove();
-	jQuery(".EditingFormErrorLabel").remove();
+	$("input[name*='expected_delivery_date']").val("");
+	$("input[name*='due_date']").val("");
+	$("input[name*='phone']").val("");
+	$("input[name*='first_name']").val("");
+	$("input[name*='last_name']").val("");
+	$("input[name*='mail']").val("");
+//	$("input[name*='doctor']").val("");
+	$("input").removeClass("error");
+	$(".error").remove();
+	$(".ErrorLabel").remove();
+	$(".EditingFormErrorLabel").remove();
 }
 
 function playCurrentPlayer() {
 	if (currentIndex < 3) {
-		if (jQuery(currentVideoPage()).find(".tubeplayer").length) {
+		var page = $(currentVideoPage());
+		if ($(".tubeplayer",page).length) {
 			try {
 				var tubeplayer = currentTubePlayer();
-				jQuery(tubeplayer).tubeplayer("play");
+				tubeplayer.tubeplayer("play");
 			}
 			catch(e) {
 				debugWrite("tubeplayer:",e);
 			}
 		}
-		else if (jQuery(currentVideoPage()).find(".ytplayer").length) {
+		else if ($(".ytplayer",page).length) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.playVideo();
@@ -576,16 +623,17 @@ function playCurrentPlayer() {
 
 function pauseCurrentPlayer() {
 	if (currentIndex < 3) {
-		if (jQuery(currentVideoPage()).find(".tubeplayer").length) {
+		var page = $(currentVideoPage());
+		if ($(".tubeplayer",page).length) {
 			try {
 				var tubeplayer = currentTubePlayer();
-				jQuery(tubeplayer).tubeplayer("pause");
+				tubeplayer.tubeplayer("pause");
 			}
 			catch(e) {
 				debugWrite("tubeplayer:",e);
 			}
 		}
-		else if (jQuery(currentVideoPage()).find(".ytplayer").length) {
+		else if ($(".ytplayer",page).length) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.pauseVideo();
@@ -610,13 +658,13 @@ function pauseCurrentPlayer() {
 // Событие инициализации YouTube Player API
 function onYouTubePlayerAPIReady() {
 	debugWrite("YouTube Player API is ready!");
-	jQuery(".ytplayer").each(function(i,e) {
+	$(".ytplayer").each(function(i,e) {
 		var ytplayer;
-		ytplayer = new YT.Player(jQuery(this).attr("id"), {
+		ytplayer = new YT.Player($(this).attr("id"), {
           	width: "100%",
 			height: '648',
 		  	allowfullscreen: 'true',
-		  	videoId: jQuery(this).attr("videoId"),
+		  	videoId: $(this).attr("videoId"),
 		  	events: {
 				'onReady': onPlayerReady,
 				'onStateChange': onPlayerStateChange,
@@ -680,7 +728,7 @@ function getID() {
 }
 
 // Событие инициализации tubeplayer	  	  
-jQuery.tubeplayer.defaults.afterReady = function($player){
+$.tubeplayer.defaults.afterReady = function($player){
 	hideBuffering();
 }
 
@@ -688,7 +736,7 @@ jQuery.tubeplayer.defaults.afterReady = function($player){
 // Параметр - отправляемая форма ввода
 function crossDomainSubmit(item) {
 	// Add the iframe with a unique name
-	var uniqueString = "crossDomainForm-"+jQuery("iframe").length;
+	var uniqueString = "crossDomainForm-"+$("iframe").length;
 	var iframe = document.createElement("iframe");
 	document.body.appendChild(iframe);
 	iframe.style.display = "none";
@@ -769,12 +817,18 @@ function debugWrite(a,b) {
 function createSurveyForm(lang) {
 	debugWrite("createSurveyForm","start");
 	debugWrite("lang",lang);
-	var form = jQuery(".survey-form-template").clone();
-	form.appendTo(jQuery("body")).removeClass("survey-form-template").addClass("survey-form");
+	var form = $(".survey-form-template").clone();
+	form.appendTo($("body")).removeClass("survey-form-template").addClass("survey-form");
 	form.addClass(lang);
 	form.find("#title").html(surveys[lang].title);
 	form.find("#label").text(surveys[lang].label);
+
+	// Синхронизация полей ввода форм на различных языках
+	form.find("input").change(function(event) {
+		$("input[name='"+$(this).attr("name")+"']").val($(this).val());
+	});
 	debugWrite("createSurveyForm","end");
+	return form;
 }
 
 // Создание видео-страницы на указанном языке
@@ -782,8 +836,8 @@ function createVideoPage(lang, pageId) {
 	debugWrite("createVideoPage","start");
 	debugWrite("pageId",pageId);
 	debugWrite("lang",lang);
-	var page = jQuery(".video-page-template").clone();
-	page.appendTo(jQuery("#center-vertical")).removeClass("video-page-template").addClass("video-page");
+	var page = $(".video-page-template").clone();
+	page.appendTo($("#center-vertical")).removeClass("video-page-template").addClass("video-page");
 	page.attr("id",pageId)
 	page.addClass(lang);
 	
@@ -812,6 +866,9 @@ function createVideoPage(lang, pageId) {
 		page.append(lnk)
 		debugWrite("lnk",lnk);
 	}
+	
+	var tip = $(".videoTip",page);
+	tip.html(tip.html()+"<img src='images/up-arrow.png' />");
 	
 	// Выбор способа воспроизведения видео
 	// Для KioskPro, используется HTML5 video 
@@ -858,17 +915,17 @@ function createVideoPage(lang, pageId) {
 
 	debugWrite("Инициализация tubeplayer","start");
 	page.find(".tubeplayer").each(function(i,e) {
-		jQuery(this).tubeplayer({
+		$(this).tubeplayer({
 			width: "100%", // the width of the player
 			height: 648, // the height of the player
 			allowFullScreen: "true", // true by default, allow user to go full screen
-			initialVideo: jQuery(this).attr("videoId"), // the video that is loaded into the player
+			initialVideo: $(this).attr("videoId"), // the video that is loaded into the player
 			start: 0, 
 			preferredQuality: "default",// preferred quality: default, small, medium, large, hd720
 			showControls: 1, // whether the player should have the controls visible, 0 or 1
 			showRelated: 0, // show the related videos when the player ends, 0 or 1 
 			autoPlay: false, // whether the player should autoplay the video, 0 or 1
-			autoHide: true, 
+			autoHide: false, 
 			theme: "dark", // possible options: "dark" or "light"
 			color: "red", // possible options: "red" or "white"
 			showinfo: false, // if you want the player to include details about the video
@@ -964,24 +1021,29 @@ function createMenuPage(lang, pageId) {
 	debugWrite("createMenuPage","start");
 	debugWrite("pageId",pageId);
 	debugWrite("lang",lang);
-	var page = jQuery(".menu-page-template#"+pageId).clone();
-	page.appendTo(jQuery("#center-vertical")).removeClass("menu-page-template").addClass("menu-page");
+	var page = $(".menu-page-template#"+pageId).clone();
+	page.appendTo($("#center-vertical")).removeClass("menu-page-template").addClass("menu-page");
 	page.attr("id",pageId)
 	page.addClass(lang);
 	
 	page.find("#title").html(pages[lang][pageId].title);
 	page.find("#subtitle").html(pages[lang][pageId].subtitle);
 	
+	// Перевод заголовков полей формы на указанный язык
 	for(var lblFor in formLabels[lang]) {
 		page.find("label[for='"+lblFor+"']").text(formLabels[lang][lblFor]);
 	}
 	
+	// Добавление кнопок
+	// Добавляются все кнопки.
+	// Не используемые кнопки отключаются в CSS файле.
 	for(var btn in menuButtons[lang]) {
 		var lnk = "<a class='"+btn+" "+menuButtons[lang][btn].buttonClass+"' href='#'><div class='"+btn+"-icon'></div>"+menuButtons[lang][btn].text+"</a>";
 		page.append(lnk);
 		debugWrite("lnk",lnk);
 	}
 
+	// Добавление выбора языка
 	var languageSelector = "<div class='languageSelector'><select id='languageSelector-"+lang+"-"+pageId+"' name='languageSelector' style='width:180px'>";
 	for(var lng in languages) {
 		var selected = (lng==lang)?"selected":"";
@@ -991,11 +1053,18 @@ function createMenuPage(lang, pageId) {
 	languageSelector += "</select></div>";
 	page.append(languageSelector);
 
-	var oDropdown = jQuery("#languageSelector-"+lang+"-"+pageId+"",page).msDropdown({rowHeight:32}).data("dd");
+	// Создание выпадающего списка языков на основе созданного select
+	// Письмо от 02.08.2013:
+	// При запросе фамилии доктора, нужно сделать так, что если человек может на заднем фоне поменять язык, 
+	// то и запрос по доктору будет на его родном языке
+	var oDropdown = $("#languageSelector-"+lang+"-"+pageId+"",page).msDropdown({rowHeight:32}).data("dd");
 	oDropdown.visibleRows(languages.length);
 	oDropdowns.push(oDropdown);
 	oDropdown.on("change", function(event) {
 		debugWrite("this.value",this.value);
+		if(showSurvey) { 
+			hideSurveyDialog();
+		}
 		hideCurrentMenu();
 		currentLanguage = this.value;
 		for(var i=0; i<oDropdowns.length; i++) {
@@ -1004,6 +1073,9 @@ function createMenuPage(lang, pageId) {
 		closeDropdowns();
 		createPagesIfNotExists(currentLanguage);
 		showCurrentMenu();
+		if(showSurvey) { 
+			showSurveyDialog(); 
+		}
 	});
 	
 	// Проверка встроенной поддержки для <input type="date">
@@ -1023,16 +1095,16 @@ function createMenuPage(lang, pageId) {
 	debugWrite("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","start");
 	page.find("input[name*='due_date'][type='text']").data("lang",lang);
 	page.find("input[name*='due_date'][type='text']").focus(function(event) { 
-		var lang = jQuery(this).data("lang");
-		jQuery(this).datepicker( 
+		var lang = $(this).data("lang");
+		$(this).datepicker( 
 			"dialog", 
-			jQuery("."+currentLanguage+" input[name*='due_date']").val() , 
+			$("."+currentLanguage+" input[name*='due_date']").val() , 
 			function (date, inst) {
-				jQuery("input[name*='due_date']").val(date);
+				$("input[name*='due_date']").val(date);
 			},
-			jQuery.extend({
+			$.extend({
 				showButtonPanel: true
-			}, jQuery.datepicker.regional[ lang ] )
+			}, $.datepicker.regional[ lang ] )
 		);
 	});
 	debugWrite("Обработка поля due_date если нет встроенной поддержки для <input type='date'>","end");
@@ -1053,8 +1125,9 @@ function createMenuPage(lang, pageId) {
 	}
 	debugWrite("Установка валидации форм","end");
 
+	// Синхронизация полей ввода форм на различных языках
 	page.find("input").change(function(event) {
-		jQuery("input[name='"+jQuery(this).attr("name")+"']").val(jQuery(this).val());
+		$("input[name='"+$(this).attr("name")+"']").val($(this).val());
 	});
 	
 	page.find(".save").click(function(event) {
@@ -1069,10 +1142,10 @@ function createMenuPage(lang, pageId) {
 		} catch (e) {
 			debugWrite('form.valid() error',e);
 			debugWrite("Ручная валидация формы обратной связи","start");
-			jQuery("input").removeClass("error");
-			jQuery(".error").remove();
-			jQuery(".ErrorLabel").remove();
-			jQuery(".EditingFormErrorLabel").remove();
+			$("input").removeClass("error");
+			$(".error").remove();
+			$(".ErrorLabel").remove();
+			$(".EditingFormErrorLabel").remove();
 			isValid = true;
 			var form = currentCallbackForm();
 			form.find("input.required").each(function(index, element) {
@@ -1218,8 +1291,8 @@ function createMenuPage(lang, pageId) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		closeDropdowns();
 		hideCurrentMenu();
-		currentLanguage = jQuery(this).val();
-		jQuery("select#languageSelector").val(currentLanguage);
+		currentLanguage = $(this).val();
+		$("select#languageSelector").val(currentLanguage);
 		createPagesIfNotExists(currentLanguage);
 		showCurrentMenu();
 		return false;
@@ -1231,7 +1304,7 @@ function createMenuPage(lang, pageId) {
 function createPagesIfNotExists(lang) {
 	debugWrite("createPagesIfNotExists","start");
 	debugWrite("lang",lang);
-	if (jQuery(".video-page."+lang).length==0) {
+	if ($(".video-page."+lang).length==0) {
 		// Создание видео-страниц
 		debugWrite("Создание видео-страниц","start");
 		for(var pageId in videos[lang]) {
@@ -1240,7 +1313,7 @@ function createPagesIfNotExists(lang) {
 		debugWrite("Создание видео-страниц","end");
 	}
 	
-	if (jQuery(".menu-page."+lang).length==0) {
+	if ($(".menu-page."+lang).length==0) {
 		// Создание страниц меню
 		debugWrite("Создание страниц меню","start");
 		for(var pageId in pages[lang]) {
@@ -1249,12 +1322,19 @@ function createPagesIfNotExists(lang) {
 		debugWrite("Создание страниц меню","end");
 	}
 	
+	if ($("#surveyForm."+lang).length==0) {
+		// Создание страниц меню
+		debugWrite("Создание диалога вопроса","start");
+		createSurveyForm(lang);
+		debugWrite("Создание диалога вопроса","end");
+	}
+	
 	debugWrite("Выключение отображения элементов","start");
 	try {
-		jQuery(".videoStop").hide();
-		jQuery(".videoContact").hide();
-		jQuery(".video-page").hide();
-		jQuery(".menu-page").hide();
+		$(".videoStop").hide();
+		$(".videoContact").hide();
+		$(".video-page").hide();
+		$(".menu-page").hide();
 	} catch (e) {
 		debugWrite('error',e);
 	}
@@ -1263,11 +1343,11 @@ function createPagesIfNotExists(lang) {
 	debugWrite("createPagesIfNotExists","end");
 }
 
-jQuery(document).ready(function(e) {
+$(document).ready(function(e) {
 
 	// Переадресация на мобильную версию
 	debugWrite("Переадресация на мобильную версию","start");
-	if(jQuery.browser.mobile) {
+	if($.browser.mobile) {
 		window.location.hostname = "m.safeguardingstemcells.com";
 	}
 	debugWrite("Переадресация на мобильную версию","end");
@@ -1303,9 +1383,9 @@ jQuery(document).ready(function(e) {
 	// Разбор строки запроса на элементы
 	debugWrite("Разбор строки запроса на элементы","start");
 	try {
-		url = jQuery.url(window.location.toString());
+		url = $.url(window.location.toString());
 	} catch (e) {
-		debugWrite("jQuery.url error",e);
+		debugWrite("$.url error",e);
 	}
 	debugWrite("Разбор строки запроса на элементы","end");
 	
@@ -1315,7 +1395,7 @@ jQuery(document).ready(function(e) {
 	// Убрать когда точно не будем использовать Kentico
 	debugWrite("Проверка для Kentico","start");
 	try {
-		if(jQuery("."+currentLanguage+" input[name*='url']").val()==window.location.toString()) {
+		if($("."+currentLanguage+" input[name*='url']").val()==window.location.toString()) {
 			currentIndex = 3;
 		} else {
 			currentIndex = 0;
@@ -1329,8 +1409,8 @@ jQuery(document).ready(function(e) {
 	// Открываем окно с успешным результатом отправки формы
 	// Убрать когда точно не будем использовать Kentico
 	debugWrite("Проверка для Kentico","start");
-	if(jQuery(".InfoLabel").length) {
-		jQuery(".InfoLabel").remove();
+	if($(".InfoLabel").length) {
+		$(".InfoLabel").remove();
 		currentIndex = 4;
 		clearForm();
 	}		
@@ -1339,7 +1419,7 @@ jQuery(document).ready(function(e) {
 /*
 	// Инициализация для YouTube Player API
 	debugWrite("Инициализация YouTube Player API","start");
-	if (jQuery(".ytplayer").length) {	
+	if ($(".ytplayer").length) {	
 		// Load the IFrame Player API code asynchronously.
 		var tag = document.createElement('script');
 		tag.src = "https://www.youtube.com/player_api";
@@ -1350,21 +1430,21 @@ jQuery(document).ready(function(e) {
 */	
 	
 /*
-	jQuery("input[name*='expected_delivery_date']").attr("type","date");
-	jQuery("input[name*='due_date']").attr("type","date");
-	jQuery("input[name*='phone']").attr("type","tel");
-	jQuery("input[name*='e_mail']").attr("type","email");
+	$("input[name*='expected_delivery_date']").attr("type","date");
+	$("input[name*='due_date']").attr("type","date");
+	$("input[name*='phone']").attr("type","tel");
+	$("input[name*='e_mail']").attr("type","email");
 
-	jQuery("label[id*='url']").parent().hide();
-	jQuery("label[id*='ipad_id']").parent().hide();
-	jQuery("input[id*='url']").parent().hide();
-	jQuery("input[id*='ipad_id']").parent().hide();
+	$("label[id*='url']").parent().hide();
+	$("label[id*='ipad_id']").parent().hide();
+	$("input[id*='url']").parent().hide();
+	$("input[id*='ipad_id']").parent().hide();
 */
 
 	debugWrite("Инициализация переменных","start");
 	try {
-		jQuery("input[name*='ipad_id']").val(getID());
-		jQuery("input[name*='url']").val(window.location.toString());
+		$("input[name*='ipad_id']").val(getID());
+		$("input[name*='url']").val(window.location.toString());
 	} catch(e) {
 		debugWrite("error",e);
 	}
@@ -1376,7 +1456,7 @@ jQuery(document).ready(function(e) {
 		url.attr("query").split("&").forEach(function (value,index) {
 			var ar = value.split("=");
 			debugWrite(ar[0],ar[1]);
-			jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
+			$("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
 		});
 	} catch (e) {
 		debugWrite('url.attr("query").split("&").forEach error',e);
@@ -1389,7 +1469,7 @@ jQuery(document).ready(function(e) {
 	} catch (e) {
 		debugWrite('updateHeight error',e);
 	}
-	jQuery(window).resize(function() {
+	$(window).resize(function() {
 		updateHeight();
 	});
 	debugWrite("Изменение размера элементов под размер экрана","start");
@@ -1412,7 +1492,6 @@ jQuery(document).ready(function(e) {
 	try {
 		if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
 		&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
-			createSurveyForm(currentLanguage);
 			showSurveyDialog();
 		}
 	} catch (e) {
