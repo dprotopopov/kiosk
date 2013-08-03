@@ -1343,11 +1343,17 @@ function createPagesIfNotExists(lang) {
 	debugWrite("createPagesIfNotExists","end");
 }
 
+var deviceReadyDeferred = $.Deferred();
+var domReadyDeferred = $.Deferred();
+var languageReadyDeferred = $.Deferred();
+
+
 $(document).ready(function(e) {
+	debugWrite('ready', 'start');
 
 	// Переадресация на мобильную версию
 	debugWrite("Переадресация на мобильную версию","start");
-	if($.browser.mobile) {
+	if($.browser.mobile && (typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) {
 		window.location.hostname = "m.safeguardingstemcells.com";
 	}
 	debugWrite("Переадресация на мобильную версию","end");
@@ -1375,6 +1381,46 @@ $(document).ready(function(e) {
 	hideDoctor();
 	debugWrite("hideDoctor","end");
 	
+	domReadyDeferred.resolve();
+
+	if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined'))  {
+		deviceReadyDeferred.resolve();
+		languageReadyDeferred.resolve();
+	}
+	
+	debugWrite('ready', 'end');
+});
+
+// Wait for Cordova to load
+//
+document.addEventListener("deviceready", onDeviceReady, false);
+
+// Cordova is ready
+//
+function onDeviceReady() {
+	debugWrite("onDeviceReady","start");
+	deviceReadyDeferred.resolve();
+
+	try {
+		navigator.globalization.getLocaleName(
+			function(locale) { 
+				if(languages[locale.value.substr(0,2)]) currentLanguage = locale.value.substr(0,2); 
+				languageReadyDeferred.resolve();
+			},
+			function() {
+				languageReadyDeferred.resolve();
+			}
+		)
+	} catch(e) {
+		languageReadyDeferred.resolve();
+	}
+	
+	debugWrite("onDeviceReady","end");
+}
+
+$.when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then(function() {
+	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then','start');
+
 	// Создание страниц для текущего языка
 	debugWrite("Создание страниц для текущего языка","start");
 	createPagesIfNotExists(currentLanguage);
@@ -1499,4 +1545,5 @@ $(document).ready(function(e) {
 	}
 	debugWrite("Проверка и открытие формы вопроса","end");
 	
+	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then','end');
 });
