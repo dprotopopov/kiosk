@@ -50,8 +50,8 @@ var videos = {
 		video1: { 
 			videoId: "uuqGzMd808c",
 			sources: [ 
-				{ src:"video/CC_an_13.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
-     			{ src:"video/CC_an_13.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+				{ src:"video/CC_an_13_Spanish.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/CC_an_13_Spanish.ogv", type:'video/ogg; codecs="theora, vorbis"' }
 			]
 		},
 		video2: { 
@@ -119,8 +119,8 @@ var videos = {
 		video1: { 
 			videoId: "uuqGzMd808c",
 			sources: [ 
-				{ src:"video/CC_an_13.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
-     			{ src:"video/CC_an_13.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+				{ src:"video/Cord_Blood_Educational_Video_Simplified_Chinese_1.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/Cord_Blood_Educational_Video_Simplified_Chinese_1.ogv", type:'video/ogg; codecs="theora, vorbis"' }
 			]
 		},
 		video2: { 
@@ -142,8 +142,8 @@ var videos = {
 		video1: { 
 			videoId: "uuqGzMd808c",
 			sources: [ 
-				{ src:"video/CC_an_13.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
-     			{ src:"video/CC_an_13.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+				{ src:"video/Cord_Blood_Educational_Video_Traditional_Chinese_1.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/Cord_Blood_Educational_Video_Traditional_Chinese_1.ogv", type:'video/ogg; codecs="theora, vorbis"' }
 			]
 		},
 		video2: { 
@@ -505,7 +505,7 @@ function currentMenuPage() { return $(".menu-page." + currentLanguage).get(curre
 function currentVideoPage() { return $(".video-page." + currentLanguage).get(currentIndex); }
 function currentVideoStop() { return $(".videoStop",currentVideoPage()); }
 function currentVideoContact() { return $(".videoContact",currentVideoPage()); }
-function currentPlayer() { return $("video",currentVideoPage()); }
+function currentPlayer() { return $(currentVideoPage()).find("video").get(0); }
 function currentYtPlayer() { return YtPlayers[$(".ytplayer").index($(currentVideoPage()).find(".ytplayer").get(0))]; }
 function currentTubePlayer() { return $(".tubeplayer",currentVideoPage()); }
 function nextIndex(index) { index++ ; if(index >= 5) index = 4; return index; }
