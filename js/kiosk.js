@@ -311,7 +311,7 @@ var pages = {
 		},
 		page4: { 
 			title: "Gracias",
-			subtitle: "Esperamos que haya encontrado estos breves videos muy informativos.<br />Para obtener más información acerca de nuestros servicios, por favor complete el siguiente formulario de contacto."
+			subtitle: "Esperamos que haya encontrado estos breves videos muy informativos.<br />Para obtener más información, por favor complete el siguiente formulario."
 		},
 		page5: { 
 			title: "Gracias",
@@ -422,7 +422,7 @@ var formLabels = {
 	es: {
 		first_name: "Nombre",
 		last_name: "Apellido",
-		due_date: "Fecha estimada de parto",
+		due_date: "Fecha de parto",
 		phone_number: "Teléfono",
 		email: "Correo electrónico",
 		doctor: "Médico"
