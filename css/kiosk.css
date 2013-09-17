@@ -489,3 +489,7 @@ label.error {
 .ddTitleText {
 	text-align:center;
 }
+
+img {
+	border:none;
+}
