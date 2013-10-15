@@ -493,3 +493,7 @@ label.error {
 img {
 	border:none;
 }
+
+input#answer {
+	width: 90%;
+}

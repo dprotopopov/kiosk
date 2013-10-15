@@ -10,8 +10,19 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
+// Определение способа воспроизведения видео с YouTube
+// Значения:
+//     tubeplayer - использование плагина Tubeplayer (http://www.tikku.com/jquery-youtube-tubeplayer-plugin)
+//     ytplayer   - использование YouTube Player API (https://developers.google.com/youtube/iframe_api_reference)
+var PlayerApi = "tubeplayer";
+
 // Используется для YouTube Player API
-//var YtPlayers = new Array();
+var YtPlayers = new Array();
+
+var deviceReadyDeferred = $.Deferred();
+var domReadyDeferred = $.Deferred();
+var languageReadyDeferred = $.Deferred();
+var ytPlayerReadyDeferred = $.Deferred();
 
 var currentIndex = 0;
 var currentLanguage = "en";
@@ -654,25 +665,10 @@ function pauseCurrentPlayer() {
 	}
 }
 
-/*
+
 // Событие инициализации YouTube Player API
 function onYouTubePlayerAPIReady() {
-	debugWrite("YouTube Player API is ready!");
-	$(".ytplayer").each(function(i,e) {
-		var ytplayer;
-		ytplayer = new YT.Player($(this).attr("id"), {
-          	width: "100%",
-			height: '648',
-		  	allowfullscreen: 'true',
-		  	videoId: $(this).attr("videoId"),
-		  	events: {
-				'onReady': onPlayerReady,
-				'onStateChange': onPlayerStateChange,
-				'onError': onPlayerError
-		  	}
-		});
-		YtPlayers.push(ytplayer);
-	});
+	ytPlayerReadyDeferred.resolve();
 }
 
 function onPlayerError(event) {
@@ -711,7 +707,7 @@ function onPlayerStateChange(event) {
 	  	break;
 	}
 }
-*/
+
 
 // Определение ID, заданного в Kiosk Pro
 function getID() {
@@ -845,10 +841,9 @@ function createVideoPage(lang, pageId) {
 	// создаём либо div элемент для tubeplayer,
 	// либо html5 video таг
 	if(typeof kioskpro_id === 'undefined') {
-		var tubeplayer = "<div videoId='"+videos[lang][pageId].videoId+"' class='tubeplayer'></div>";
-		page.append(tubeplayer);
-		debugWrite("tubeplayer",tubeplayer);
-		
+		var player = "<div id='player-"+pageId+"-"+lang+"' videoId='"+videos[lang][pageId].videoId+"' class='"+PlayerApi+"'></div>";
+		page.append(player);
+		debugWrite(PlayerApi,player);		
 	} else {
 		var video = "<video width='1024px' height='648px' controls>";
 		videos[lang][pageId].sources.forEach(function(value,index) {
@@ -985,6 +980,25 @@ function createVideoPage(lang, pageId) {
 		});
 	});
 	debugWrite("Инициализация tubeplayer","end");
+
+	debugWrite("Инициализация ytplayer","start");
+	page.find(".ytplayer").each(function(i,e) {
+		var ytplayer;
+		ytplayer = new YT.Player($(this).attr("id"), {
+          	width: "100%",
+			height: '648',
+		  	allowfullscreen: 'true',
+		  	videoId: $(this).attr("videoId"),
+		  	events: {
+				'onReady': onPlayerReady,
+				'onStateChange': onPlayerStateChange,
+				'onError': onPlayerError
+		  	}
+		});
+		YtPlayers.push(ytplayer);
+		debugWrite("new YT.Player",$(this).attr("videoId"));
+	});
+	debugWrite("Инициализация ytplayer","end");
 
 	page.find(".videoStop").click(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -1135,11 +1149,12 @@ function createMenuPage(lang, pageId) {
 		closeDropdowns();
 		var isValid = false;
 		debugWrite("Валидация формы обратной связи","start");
-		try {
-			var form = currentCallbackForm();
-			debugWrite('form',form.html());
-			isValid = form.valid();
-		} catch (e) {
+// Закомментированно 15.10.2013 из-за проблем работы сприпта в iOS 7
+//		try {
+//			var form = currentCallbackForm();
+//			debugWrite('form',form.html());
+//			isValid = form.valid();
+//		} catch (e) {
 			debugWrite('form.valid() error',e);
 			debugWrite("Ручная валидация формы обратной связи","start");
 			$("input").removeClass("error");
@@ -1163,7 +1178,7 @@ function createMenuPage(lang, pageId) {
 				}
             });
 			debugWrite("Ручная валидация формы обратной связи","end");
-		}
+//		}
 		debugWrite("Валидация формы обратной связи","end");
 		if (isValid) {
 			debugWrite("Отправка формы обратной связи","start");
@@ -1343,11 +1358,6 @@ function createPagesIfNotExists(lang) {
 	debugWrite("createPagesIfNotExists","end");
 }
 
-var deviceReadyDeferred = $.Deferred();
-var domReadyDeferred = $.Deferred();
-var languageReadyDeferred = $.Deferred();
-
-
 $(document).ready(function(e) {
 	debugWrite('ready', 'start');
 
@@ -1388,6 +1398,19 @@ $(document).ready(function(e) {
 		languageReadyDeferred.resolve();
 	}
 	
+	if(typeof kioskpro_id === 'undefined' && PlayerApi == "ytplayer") {
+	// Инициализация для YouTube Player API
+		debugWrite("Инициализация YouTube Player API","start");
+		// Load the IFrame Player API code asynchronously.
+		var tag = document.createElement('script');
+		tag.src = "https://www.youtube.com/iframe_api";
+		var firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+		debugWrite("Инициализация YouTube Player API","end");
+	} else {
+		ytPlayerReadyDeferred.resolve();
+	}
+	
 	debugWrite('ready', 'end');
 });
 
@@ -1418,8 +1441,8 @@ function onDeviceReady() {
 	debugWrite("onDeviceReady","end");
 }
 
-$.when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then(function() {
-	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then','start');
+$.when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred, ytPlayerReadyDeferred).then(function() {
+	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred, ytPlayerReadyDeferred).then','start');
 
 	// Создание страниц для текущего языка
 	debugWrite("Создание страниц для текущего языка","start");
@@ -1462,19 +1485,7 @@ $.when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then(functi
 	}		
 	debugWrite("Проверка для Kentico","end");
 	
-/*
-	// Инициализация для YouTube Player API
-	debugWrite("Инициализация YouTube Player API","start");
-	if ($(".ytplayer").length) {	
-		// Load the IFrame Player API code asynchronously.
-		var tag = document.createElement('script');
-		tag.src = "https://www.youtube.com/player_api";
-		var firstScriptTag = document.getElementsByTagName('script')[0];
-		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-	}
-	debugWrite("Инициализация YouTube Player API","end");
-*/	
-	
+
 /*
 	$("input[name*='expected_delivery_date']").attr("type","date");
 	$("input[name*='due_date']").attr("type","date");
@@ -1545,5 +1556,5 @@ $.when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then(functi
 	}
 	debugWrite("Проверка и открытие формы вопроса","end");
 	
-	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then','end');
+	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred, ytPlayerReadyDeferred).then','end');
 });
