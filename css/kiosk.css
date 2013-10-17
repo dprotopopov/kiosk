@@ -68,7 +68,9 @@ body {
 }
 #video-page video, .video-page video,
 #video-page .tubeplayer, .video-page .tubeplayer,
-#video-page .ytplayer, .video-page .ytplayer {
+#video-page object, .video-page object,
+#video-page .jsplayer, .video-page .jsplayer,
+#video-page .iframeplayer, .video-page .iframeplayer {
 	width: 100%;
 	min-width: 768px;
 	max-width: 1024px;
@@ -418,13 +420,13 @@ label {
 	top:75%;
 }
 
-#page2 .play, #page3 .play {
+.page2 .play, .page3 .play {
 	top:52%;
 }
-#page2 .contact, #page3 .contact {
+.page2 .contact, .page3 .contact {
 	top:70%;
 }
-#page5 .home {
+.page5 .home {
 	top:60%;
 }
 
@@ -432,19 +434,19 @@ label {
 	color: #F00;
 }
 
-#page4 .play, #page5 .play, 
-#page1 .contact, #page4 .contact, #page5 .contact, 
-#page1 .save, #page2 .save, #page3 .save, #page5 .save, 
-#page1 .replay, #page2 .replay, #page3 .replay, #page4 .replay, #page5 .replay, 
-#page1 .home, #page2 .home, #page3 .home, #page4 .home, 
-#page1 .prev, #page5 .prev, 
-#page4 .next, #page5 .next {
+.page4 .play, .page5 .play, 
+.page1 .contact, .page4 .contact, .page5 .contact, 
+.page1 .save, .page2 .save, .page3 .save, .page5 .save, 
+.page1 .replay, .page2 .replay, .page3 .replay, .page4 .replay, .page5 .replay, 
+.page1 .home, .page2 .home, .page3 .home, .page4 .home, 
+.page1 .prev, .page5 .prev, 
+.page4 .next, .page5 .next {
 	display: none;
 }
 
-#video1 .videoSorry,
-#video2 .videoTip,
-#video3 .videoTip {
+.video1 .videoSorry,
+.video2 .videoTip,
+.video3 .videoTip {
 	display: none !important;
 }
 
@@ -452,7 +454,7 @@ label {
 	font-size:16px;
 }
 
-#page4 .title {
+.page4 .title {
 	top:15%;
 }
 
