@@ -1660,9 +1660,9 @@
 		}
 		debugWrite("Переадресация на мобильную версию","end");
 	
-		if(!isCordova() && !isKioskPro()) {
-			$('head').append('<meta name="viewport" content="width=1280" />');
-		}
+//		if(!isCordova() && !isKioskPro()) {
+//			$('head').append('<meta name="viewport" content="width=1280" />');
+//		}
 
 		// Использование языка браузера в качестве начального языка страниц
 		debugWrite("Использование языка браузера в качестве начального языка страниц","start");
