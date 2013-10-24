@@ -434,6 +434,7 @@ label {
 	color: #F00;
 }
 
+.videoHome,
 .page4 .play, .page5 .play, 
 .page1 .contact, .page4 .contact, .page5 .contact, 
 .page1 .save, .page2 .save, .page3 .save, .page5 .save, 
@@ -441,7 +442,7 @@ label {
 .page1 .home, .page2 .home, .page3 .home, .page4 .home, 
 .page1 .prev, .page5 .prev, 
 .page4 .next, .page5 .next {
-	display: none;
+	display: none !important;
 }
 
 .video1 .videoSorry,
