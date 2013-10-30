@@ -227,15 +227,15 @@
 			videoHome: { buttonClass:"button-small-mini", text:"首頁" },
 			videoStop: { buttonClass:"button-small-mini", text:"完成" },
 			videoContact: { buttonClass:"button-mini", text:"有疑问吗？" },
-			videoTip: { buttonClass:"", text:"在这里，你可以使自己的语言的字幕" },
-			videoSorry: { buttonClass:"", text:"我们深表歉意，但录像显示，仅在英语" }
+			videoTip: { buttonClass:"", text:"您可以在此启用您自己的语言字幕" },
+			videoSorry: { buttonClass:"", text:"对不起，该視頻仅有英文版" }
 		},
 		tw: {
 			videoHome: { buttonClass:"button-small-mini", text:"首頁" },
 			videoStop: { buttonClass:"button-small-mini", text:"完成" },
 			videoContact: { buttonClass:"button-mini", text:"有疑問嗎？" },
-			videoTip: { buttonClass:"", text:"在這裡，你可以使自己的語言的字幕" },
-			videoSorry: { buttonClass:"", text:"我們深表歉意，但錄像顯示，僅在英語" }
+			videoTip: { buttonClass:"", text:"您可以在此啟用您自己的語言字幕" },
+			videoSorry: { buttonClass:"", text:"對不起，該視頻僅有英文版" }
 		}
 	};
 	
@@ -415,11 +415,11 @@
 			},
 			page4: { 
 				title: "谢谢",
-				subtitle: "希望这些短视频为您提供了翔实的资讯。<br />若想更了解我们的服务，请填写下面的联系表格。"
+				subtitle: "希望这些短视频对您有所助益。<br />若想更加了解我们的服务，请填写下列联系表格。"
 			},
 			page5: { 
 				title: "谢谢",
-				subtitle: "您的要求已发送<br />我们的客户服务代表将很快地与您联系."
+				subtitle: "您的要求已送出<br />我们的客户服务代表将很快地与您联系."
 			}
 		},
 		tw: {
@@ -437,11 +437,11 @@
 			},
 			page4: { 
 				title: "謝謝",
-				subtitle: "希望這些短視頻為您提供了翔實的資訊。<br />若想更了解我們的服務，請填寫下面的聯繫表格。"
+				subtitle: "希望這些短視頻對您有所助益。<br />若想更加了解我們的服務，請填寫下列聯繫表格。"
 			},
 			page5: { 
 				title: "謝謝",
-				subtitle: "您的要求已發送<br />我們的客戶服務代表將很快地與您聯繫."
+				subtitle: "您的要求已送出<br />我們的客戶服務代表將很快地與您聯繫."
 			}
 		}
 	};
