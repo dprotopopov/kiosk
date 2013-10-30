@@ -35,8 +35,21 @@
 	
 	// Дефолтные значения передаваемых аргументов
 	// Аргументы передаются в виде строки адреса,
-	// либо задаются в параметре iPadID в формате имя=значение&имя=значение&имя=значение&...
+	// либо задаются в параметре iPadID
+	// в формате имя1=значение1&имя2=значение2&имя3=значение3&...
+	// Переданные в скрипт аргументы используются в шаблонах заголовков страниц
+	// и в качестве дефолтных значений полей форм ввода.
+	// Примечание - строка должна быть urlencoded
 	// Пример: 
+	//    WWW    http://sweepstakes.com?doctor=Doctor%20No
+	//    iPad   doctor=Doctor%20No
+	// Arguments are sent as browser's address
+	// or as value of iPadID
+	// with format name1=value1&name2=value2&name3=value3&...
+	// Send arguments to script will apply to page header templates
+	// or as default values of input fields of forms.
+	// NB - string must be urlencoded
+	// Examples:
 	//    WWW    http://sweepstakes.com?doctor=Doctor%20No
 	//    iPad   doctor=Doctor%20No
 	var args = {
@@ -538,11 +551,17 @@
 		tw: "繁體中文"
 	};
 	
+	try {
+		var kioskId = (kioskpro_id.toString().split(" ").join(""));
+		localStorage.setItem("KioskProID", kioskId);
+	} catch (e) {
+	}
+	
 	// Определение ID, заданного в Kiosk Pro
 	function getID() {
 		var iPadID = "iPadID is not set";
 		try {
-			iPadID = kioskpro_id.toString().split(" ").join("");
+			iPadID = localStorage.getItem("KioskProID");
 		} catch(e) {
 			iPadID = "iPadID is not set";
 		}
@@ -552,7 +571,8 @@
 	function isKioskPro() {
 		var bool = true;
 		try {
-			bool = kioskpro_id.toString().split(" ").join("") != "";
+			var iPadID = localStorage.getItem("KioskProID");
+			bool = iPadID && iPadID != "";
 		} catch(e) {
 			bool = false;
 		}
@@ -1661,7 +1681,7 @@
 
 	$(window).one('load',function(e) {
 		debugWrite('load', 'start');
-		sleep(2000);
+//		sleep(2000);
 		
 		// Переадресация на мобильную версию
 		debugWrite("Переадресация на мобильную версию","start");
@@ -1815,17 +1835,15 @@
 		
 		debugWrite("Заполняем аргументы значениями указанными в iPadID","start");
 		try {
-			if(!isKioskPro()) {
-			} else {
-			  var iPadID = kioskpro_id.toString().split(" ").join("");
-			  if (!iPadID || iPadID == "") {
-			  } else {
-				   iPadID.split("&").forEach(function (value,index) {
+			if(isKioskPro()) {
+				var iPadID = localStorage.getItem("KioskProID");
+				if (iPadID && iPadID != "") {
+					iPadID.split("&").forEach(function (value,index) {
 						var ar = value.split("=");
 						debugWrite(ar[0],ar[1]);
 						args[ar[0]]=urldecode(ar[1]);
 					});
-			  }
+				}
 			}
 		} catch (e) {
 			debugWrite('getID().split("&").forEach error',e);
