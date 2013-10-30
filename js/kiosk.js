@@ -468,7 +468,7 @@
 		ru: {
 			first_name: "Имя",
 			last_name: "Фамилия",
-			due_date: "Ожидаемая дата",
+			due_date: "Ожидаемая дата родов",
 			phone_number: "Номер телефона",
 			email: "Email",
 			doctor: "Доктор"
