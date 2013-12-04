@@ -484,7 +484,7 @@ var onPlayerStateChange;
 		es: {
 			first_name: "Nombre",
 			last_name: "Apellido",
-			due_date: "Fecha de parto",
+			due_date: "Fecha estimada de parto",
 			phone_number: "Teléfono",
 			email: "Correo electrónico",
 			doctor: "Médico"
