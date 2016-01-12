@@ -1,0 +1,14 @@
+{
+  "name": "jquery-timer",
+  "homepage": "https://github.com/jchavannes/jquery-timer",
+  "_release": "06c9453653",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "06c9453653b7ad1120aa1bb46d1d8c2b71023537"
+  },
+  "_source": "https://github.com/jchavannes/jquery-timer.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/jchavannes/jquery-timer.git",
+  "_direct": true
+}
